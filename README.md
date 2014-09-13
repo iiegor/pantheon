@@ -1,9 +1,14 @@
 # birdy
-Make fly your web applications with birdy, an easy way to start developing node.js websites.
+Make fly your web applications with birdy, an easy way to start developing node.js websites.<br>
 Birdy is based on makerparty source.
 
 ## Installation
-Run the following commands for prepare the project:
+You need to have installed grunt-cli, run:
+```
+npm install -g grunt-cli
+```
+
+When you have grunt-cli installed (type grunt in the console to check) run the following commands to prepare the project:
 ```
 npm install
 cp .env-dist .env
