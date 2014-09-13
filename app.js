@@ -4,6 +4,7 @@ var nunjucks = require('nunjucks');
 var path = require('path');
 var fs = require('fs');
 var i18n = require('webmaker-i18n');
+var bodyParser = require('body-parser');
 var nunjucksEnv = new nunjucks.Environment(new nunjucks.FileSystemLoader(path.join(__dirname, 'views')));
 
 // Prepare
@@ -12,6 +13,9 @@ habitat.load();
 // Instantiate
 var app = express(),
 	env = new habitat('birdy');
+
+app.use(bodyParser.urlencoded({	extended: true	}));
+app.use(bodyParser.json());
 
 // Setup the application
 if ('prod' == env.get('ENV')) app.disable('verbose errors');
