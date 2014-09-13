@@ -1,0 +1,27 @@
+{
+  "name": "birdy",
+  "version": "0.0.1",
+  "description": "Web server",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/underc0de/birdy"
+  },
+  "author": "@iiegor",
+  "dependencies": {
+    "bower": "latest",
+    "express": "4.9.0",
+    "habitat": "2.0.0",
+    "nunjucks": "1.0.7",
+    "webmaker-i18n": "0.3.24",
+    "webmaker-locale-mapping": "latest"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/underc0de/birdy/issues"
+  },
+  "homepage": "https://github.com/underc0de/birdy"
+}

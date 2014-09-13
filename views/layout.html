@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="{{ localeInfo.lang }}">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	<meta charset="utf-8">
+
+	<!-- sharing -->
+	<meta property="og:type" content="website" />
+	<meta property="og:site_name" content="Birdy" />
+	<meta property="og:title" content="Birdy" />
+	<meta property="og:description" content="My Birdy website description." />
+
+	<meta property="description" content="My Birdy website description." />
+	<!-- /sharing -->
+
+	<title>{% block title %}{% endblock %}</title>
+	{% block styles %}{% endblock %}
+</head>
+<body class="{% if page %}{{ page }}{% endif %}">
+	<section id="content">
+		{% block yield %}
+    	{% endblock %}
+	</section>
+</body>
+</html>

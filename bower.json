@@ -1,0 +1,20 @@
+{
+  "name": "birdy",
+  "version": "0.0.1",
+  "authors": [
+    "@iiegor"
+  ],
+  "description": "Web server",
+  "main": "app.js",
+  "license": "MIT",
+  "homepage": "https://github.com/underc0de/birdy",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+  }
+}
