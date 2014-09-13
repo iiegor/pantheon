@@ -11,9 +11,12 @@ npm install -g grunt-cli
 When you have grunt-cli installed (type grunt in the console to check) run the following commands to prepare the project:
 ```
 npm install
+grunt
 cp .env-dist .env
 ```
 At the last, run the following command for run the server:
 ```
 node app
 ```
+## Compile
+Simply run ``grunt``
