@@ -1,6 +1,6 @@
 {
   "name": "birdy",
-  "version": "0.0.4",
+  "version": "0.0.7",
   "description": "Web server",
   "main": "app.js",
   "scripts": {
