@@ -1,4 +1,5 @@
 # birdy
+![Google logo](http://www.google.com/images/logo.gif "The Google logo")
 Make fly your web applications with birdy, an easy way to start developing node.js websites.<br>
 Birdy is based on makerparty source.
 
@@ -20,3 +21,7 @@ node app
 ```
 ## Compile
 Simply run ``grunt``
+
+## License and authors
+Authors:
+* Iegor Azuaga (dextrackmedia@gmail.com)
