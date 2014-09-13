@@ -22,6 +22,5 @@ node app
 ## Compile
 Simply run ``grunt``
 
-## License and authors
-Authors:
+## Authors
 * Iegor Azuaga (dextrackmedia@gmail.com)
