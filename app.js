@@ -33,18 +33,8 @@ app.use(i18n.middleware({
 // Static files
 app.use(express.static(path.resolve(__dirname, 'public')));
 
-// Routes
-app.get('/', function(req, res) {
-	res.render('home.html');
-});
-
-app.use(function (req, res, next) {
-	res.status(404);
-
-	res.render('error.html', {
-		code: 404
-	});
-});
+// Boot the application
+require('./birdy/Birdy').start(app);
 
 // Localized Strings
 app.get('/strings/:lang?', i18n.stringsRoute('en-US'));
