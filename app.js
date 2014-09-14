@@ -1,6 +1,7 @@
 var habitat = require('habitat');
 var express = require('express');
 var nunjucks = require('nunjucks');
+var session = require('express-session');
 var path = require('path');
 var fs = require('fs');
 var i18n = require('webmaker-i18n');
@@ -19,6 +20,12 @@ app.use(bodyParser.json());
 
 // Setup the application
 if ('prod' == env.get('ENV')) app.disable('verbose errors');
+
+app.use(session({
+	secret: env.get('COOKIE_SECRET'),
+	saveUninitialized: true,
+    resave: true
+}));
 
 nunjucksEnv.express(app);
 nunjucksEnv.addFilter('instantiate', function(input) {
