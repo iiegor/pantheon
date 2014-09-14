@@ -61,7 +61,7 @@ module.exports = function (grunt) {
   grunt.registerTask('default', ['less']);
 
   // Run server
-  grunt.registerTask('deploy', ['shell:runServer', 'watch']);
+  grunt.registerTask('deploy', ['less', 'shell:runServer', 'watch']);
 
   // Clean code before a commit
   grunt.registerTask('clean', ['jsbeautifier:modify', 'jshint']);

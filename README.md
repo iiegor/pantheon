@@ -21,6 +21,12 @@ At the last, run the following command for run the server:
 ```
 node app
 ```
+or
+```
+grunt deploy
+```
+The last command compiles your public files and then run the server.
+
 ## Compile
 Simply run ``grunt``
 
