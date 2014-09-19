@@ -30,5 +30,8 @@ The last command compiles your public files and then run the server.
 ## Compile
 Simply run ``grunt``
 
+## CLI
+In order to speed up and facilitate the creation of controllers and other components, you can use birdy-cli (https://github.com/underc0de/birdy-cli).
+
 ## Authors
 * Iegor Azuaga (dextrackmedia@gmail.com)
