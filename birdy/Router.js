@@ -5,6 +5,7 @@ module.exports = function(app) {
 	// Get
 	app.get('/', homeController.index);
 	app.get('/about', aboutController.index);
+	app.get('/about/birdy', aboutController.birdy);
 
 	// Error manifest
 	app.use(function (req, res, next) {
