@@ -1,7 +1,11 @@
-var Logger = Logger || {};
+var d = require('dejavu');
 
-Logger.log = function(string) {
-	console.info('[Birdy] %s', string);
-}
+var Logger = d.Class.declare({
+	$name: 'LoggerService',
+
+	log: function(str) {
+		console.info('[Birdy] %s', str);
+	}
+});
 
 module.exports = Logger

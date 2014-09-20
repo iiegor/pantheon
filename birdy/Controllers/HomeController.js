@@ -1,8 +1,17 @@
-var Controller = Controller || {};
+var d = require('dejavu'),
+	Controller = require('../Controller');
 
-Controller.index = function(req, res)
-{
-	res.render('home.html');
-}
+var HomeController = d.Class.declare({
+	$name: 'HomeController',
+	$extends: Controller,
 
-module.exports = Controller
+	index: function(req, res) {
+		res.render('home.html');
+	},
+
+	about: function(req, res) {
+		res.render('about.html');
+	}
+});
+
+module.exports = HomeController

@@ -6,6 +6,7 @@ var fs = require('fs');
 var i18n = require('webmaker-i18n');
 var bodyParser = require('body-parser');
 var nunjucksEnv = new nunjucks.Environment(new nunjucks.FileSystemLoader(path.join(__dirname, 'views')));
+var birdy = require('./birdy/Birdy');
 
 // Prepare
 habitat.load();
@@ -38,7 +39,7 @@ app.use(i18n.middleware({
 app.use(express.static(path.resolve(__dirname, 'public')));
 
 // Boot the application
-require('./birdy/Birdy').start(app);
+new birdy(app);
 
 // Localized Strings
 app.get('/strings/:lang?', i18n.stringsRoute('en-US'));
