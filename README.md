@@ -1,9 +1,9 @@
 # birdy [![Build Status](https://travis-ci.org/underc0de/birdy.svg)](https://travis-ci.org/underc0de/birdy) 
-> Make fly your web applications with birdy, an easy way to start developing node.js websites.<br>
+Make fly your web applications with birdy, an easy way to start developing node.js websites.<br>
 Birdy is based on makerparty source.
 
 ## Get birdy
-Clone the git running ```git clone <repository-url>`` or ``npm install birdy-server``
+Clone the git running ``git clone <repository-url>`` or ``npm install birdy-server``
 
 ## Installation
 You need to have installed grunt-cli, run:
