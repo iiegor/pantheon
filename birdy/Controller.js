@@ -5,6 +5,7 @@ var Controller = d.AbstractClass.declare({
 	$name: 'Controller',
 
 	_router: null,
+	_services: null,
 
 	initialize: function(router) {
 		if (!d.instanceOf(router, Router)) {
@@ -12,6 +13,11 @@ var Controller = d.AbstractClass.declare({
         }
 
 		this._router = router;
+		this._services = router.services;
+	},
+
+	log: function() {
+		console.log('loggin')
 	}
 });
 

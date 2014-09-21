@@ -6,6 +6,10 @@ var HomeController = d.Class.declare({
 	$extends: Controller,
 
 	index: function(req, res) {
+		// Service call examples
+		//this._services['logger'].log('Example using logger service');
+		//this._services['emitter'].emit('hungry');
+
 		res.render('home.html');
 	},
 

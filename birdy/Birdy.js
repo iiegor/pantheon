@@ -13,9 +13,9 @@ var Birdy = d.Class.declare({
 	_services: [],
 
 	initialize: function(app) {
-		this._router = new router(app);
-
 		this._bootServices();
+		
+		this._router = new router(app, this._services);
 	},
 
 	_bootServices: function() {

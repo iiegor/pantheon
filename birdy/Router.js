@@ -6,12 +6,14 @@ var d = require('dejavu'),
 var Router = d.Class.declare({
 	$name: 'Router',
 
-	_app: null,
+	app: null,
+	services: [],
+	controllers: [],
 	_controllersDir: __dirname + '/Controllers/',
-	_controllers: [],
 
-	initialize: function(app) {
-		this._app = app;
+	initialize: function(app, services) {
+		this.app = app;
+		this.services = services;
 
 		this._loadControllers();
 
@@ -20,13 +22,19 @@ var Router = d.Class.declare({
 	},
 
 	_init: function() {
-		this._app.get('/', this._controllers['HomeController'].index);
-		this._app.get('/about', this._controllers['HomeController'].about);
+		var Router = this;
+
+		this.app.get('/', function(req, res) {
+			Router.controllers['HomeController'].index(req, res);
+		}),
+		this.app.get('/about', function(req, res) {
+			Router.controllers['HomeController'].about(req, res);
+		});
 	},
 
 	_statics: function() {
 		// Error manifest
-		this._app.use(function (req, res, next) {
+		this.app.use(function (req, res, next) {
 			res.status(404);
 
 			res.render('error.html', {
@@ -53,28 +61,8 @@ var Router = d.Class.declare({
 	_loadController: function(name, path) {
 		var Controller = require(path);
 
-		this._controllers[name] = new Controller(this);
+		this.controllers[name] = new Controller(this);
 	}
 });
 
 module.exports = Router;
-
-/*
-module.exports = function(app) {
-	homeController = require('./Controllers/HomeController');
-	aboutController = require('./Controllers/AboutController');
-
-	// Get
-	app.get('/', homeController.index);
-	app.get('/about', aboutController.index);
-	app.get('/about/birdy', aboutController.birdy);
-
-	// Error manifest
-	app.use(function (req, res, next) {
-		res.status(404);
-
-		res.render('error.html', {
-			code: 404
-		});
-	});
-}*/
