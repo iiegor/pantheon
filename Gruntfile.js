@@ -4,8 +4,19 @@ module.exports = function (grunt) {
     less: {
       development: {
         files: {
-          'public/compiled/style.min.css': 'public/css/*.less'
+          'public/compiled/style.css': 'public/css/*.less'
         }
+      }
+    },
+    cssmin: {
+      my_target: {
+        files: [{
+          expand: true,
+          cwd: 'public/compiled/',
+          src: ['style.css', '!style.min.css'],
+          dest: 'public/compiled/',
+          ext: '.min.css'
+        }]
       }
     },
     watch: {
@@ -57,8 +68,9 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-jsbeautifier');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-cssmin');
 
-  grunt.registerTask('default', ['less']);
+  grunt.registerTask('default', ['less', 'cssmin']);
 
   // Run server
   grunt.registerTask('deploy', ['less', 'shell:runServer', 'watch']);
