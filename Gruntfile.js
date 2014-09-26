@@ -33,32 +33,18 @@ module.exports = function (grunt) {
         command: 'node app.js'
       }
     },
-    jshint: {
-      all: ['Gruntfile.js', 'public/js/**/*.js'],
-      options: {
-        jshintrc: '.jshintrc'
-      }
-    },
-    jsbeautifier: {
-      modify: {
-        src: ['Gruntfile.js', 'public/js/**/*.js'],
-        options: {
-          config: '.jsbeautifyrc'
-        }
-      },
-      validate: {
-        src: ['Gruntfile.js', 'public/js/**/*.js'],
-        options: {
-          mode: 'VERIFY_ONLY',
-          config: '.jsbeautifyrc'
+    uglify: {
+      my_target: {
+        files: {
+          'public/compiled/app.min.js': ['public/js/*.js']
         }
       }
     },
     gettext_finder: {
-      files: ["views/*.html", "views/**/*.html"],
+      files: ['views/*.html', 'views/**/*.html'],
       options: {
-        pathToJSON: ["locale/en_US/*.json"],
-        ignoreKeys: grunt.file.readJSON("gtf-ignored-keys.json")
+        pathToJSON: ['locale/en_US/*.json'],
+        ignoreKeys: grunt.file.readJSON('gtf-ignored-keys.json')
       },
     }
   });
@@ -69,17 +55,13 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
 
-  grunt.registerTask('default', ['less', 'cssmin']);
+  // Default
+  grunt.registerTask('default', ['less', 'cssmin', 'uglify']);
 
   // Run server
   grunt.registerTask('deploy', ['default', 'shell:runServer', 'watch']);
-
-  // Clean code before a commit
-  grunt.registerTask('clean', ['jsbeautifier:modify', 'jshint']);
-
-  // Validate code (read only)
-  grunt.registerTask('validate', ['jsbeautifier:validate', 'jshint']);
 
   // Heroku
   grunt.registerTask('heroku', ['less']);
