@@ -4,6 +4,6 @@
 {% block title %}Welcome to birdy!{% endblock %}
 
 {% block yield %}
-	<h1>Welcome to home#index</h1>
-	<p>This is the example content for views/home.html</p>
+	<h1>{{ gettext("h1_welcome") }} home#index</h1>
+	<p>{{ gettext("p_welcome") }} views/home.html</p>
 {% endblock %}
