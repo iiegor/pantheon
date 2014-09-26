@@ -6,7 +6,6 @@ var Controller = d.AbstractClass.declare({
 
 	_router: null,
 	_services: null,
-	_view: null,
 
 	initialize: function(router) {
 		if (!d.instanceOf(router, Router)) {
