@@ -1,0 +1,9 @@
+{% extends "layout.html" %}
+{% set page = "about" %}
+
+{% block title %}About{% endblock %}
+
+{% block yield %}
+	<h1>{{ gettext("h1_welcome") }} home#about</h1>
+	<p>{{ gettext("p_welcome") }} views/about.html</p>
+{% endblock %}
