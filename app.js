@@ -5,8 +5,8 @@ var path = require('path');
 var fs = require('fs');
 var i18n = require('webmaker-i18n');
 var bodyParser = require('body-parser');
-var nunjucksEnv = new nunjucks.Environment(new nunjucks.FileSystemLoader(path.join(__dirname, 'views')));
-var birdy = require('./birdy/Birdy');
+var nunjucksEnv = new nunjucks.Environment(new nunjucks.FileSystemLoader(path.join(__dirname, '/app/Views')));
+var birdy = require('./app/Birdy');
 
 // Prepare
 habitat.load();
@@ -32,7 +32,7 @@ app.use(i18n.middleware({
   supported_languages: env.get('SUPPORTED_LANGS'),
   default_lang: 'en-US',
   mappings: require('webmaker-locale-mapping'),
-  translation_directory: path.resolve(__dirname, 'locale')
+  translation_directory: path.resolve(__dirname, 'locales')
 }));
 
 // Static files
