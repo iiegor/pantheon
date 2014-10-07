@@ -25,10 +25,17 @@ var Router = d.Class.declare({
 		var Router = this;
 
 		this.app.get('/', function(req, res) {
+
 			Router.controllers['HomeController'].index(req, res);
-		}),
-		this.app.get('/about', function(req, res) {
+
+		}), this.app.get('/about', function(req, res) {
+
 			Router.controllers['HomeController'].about(req, res);
+
+		}), this.app.get('/transition', function(req, res) {
+
+			Router.transitionTo('/', res);
+
 		});
 	},
 
@@ -62,6 +69,10 @@ var Router = d.Class.declare({
 		var Controller = require(path);
 
 		this.controllers[name] = new Controller(this);
+	},
+
+	transitionTo: function(path, res) {
+		return res.redirect(path);
 	}
 });
 
