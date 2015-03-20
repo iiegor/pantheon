@@ -16,15 +16,19 @@ export default class Router {
 	_init() {
 		var Router = this;
 
-		this.app.get('/', function(req, res) {
+		this.app.get('/', (req, res) => {
 
 			Router.controllers['HomeController'].index(req, res);
 
-		}), this.app.get('/about', function(req, res) {
+		}), this.app.get('/about', (req, res) => {
 
 			Router.controllers['HomeController'].about(req, res);
 
-		}), this.app.get('/transition', function(req, res) {
+		}), this.app.get('/isomorphic', (req, res) => {
+
+			Router.controllers['HomeController'].isomorphic(req, res);
+
+		}), this.app.get('/transition', (req, res) => {
 
 			Router.transitionTo('/', res);
 

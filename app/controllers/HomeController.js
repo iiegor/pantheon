@@ -1,4 +1,7 @@
 import Controller from '../controller';
+import React from 'react/addons';
+
+import IsomorphicComponent from '../components/IsomorphicComponent'
 
 export default class HomeController extends Controller {
 	name: 'HomeController'
@@ -12,6 +15,15 @@ export default class HomeController extends Controller {
 		//this._services['emitter'].emit('hungry');
 
 		res.render('home.html');
+	}
+
+	isomorphic(req, res) {
+		var factory = React.createFactory(IsomorphicComponent);
+		var reactHTML = React.renderToString(factory({}));
+
+		res.render('isomorphic.html', {
+			output: reactHTML
+		});
 	}
 
 	about(req, res) {
