@@ -3,18 +3,18 @@
 var d = require('dejavu'),
 	utils = require('mout'),
 	fs = require('fs'),
-	router = require('./Router');
+	router = require('./router');
 
 var Birdy = d.Class.declare({
 	$name: 'Birdy',
 
 	_router: null,
-	_servicesDir: __dirname + '/Services/',
+	_servicesDir: __dirname + '/services/',
 	_services: [],
 
 	initialize: function(app) {
 		this._bootServices();
-		
+
 		this._router = new router(app, this._services);
 	},
 

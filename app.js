@@ -5,15 +5,15 @@ var path = require('path');
 var fs = require('fs');
 var i18n = require('webmaker-i18n');
 var bodyParser = require('body-parser');
-var nunjucksEnv = new nunjucks.Environment(new nunjucks.FileSystemLoader(path.join(__dirname, '/app/Views')));
-var birdy = require('./app/Birdy');
+var nunjucksEnv = new nunjucks.Environment(new nunjucks.FileSystemLoader(path.join(__dirname, '/app/views')));
+var birdy = require('./app/birdy');
 
 // Prepare
 habitat.load();
 
 // Instantiate
 var app = express(),
-	env = new habitat('birdy');
+		env = new habitat('birdy');
 
 app.use(bodyParser.urlencoded({	extended: true	}));
 app.use(bodyParser.json());

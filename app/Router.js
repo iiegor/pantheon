@@ -9,7 +9,7 @@ var Router = d.Class.declare({
 	app: null,
 	services: [],
 	controllers: [],
-	_controllersDir: __dirname + '/Controllers/',
+	_controllersDir: __dirname + '/controllers/',
 
 	initialize: function(app, services) {
 		this.app = app;

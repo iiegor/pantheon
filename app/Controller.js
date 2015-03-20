@@ -1,5 +1,5 @@
 var d = require('dejavu'),
-	Router = require('./Router');
+	Router = require('./router');
 
 var Controller = d.AbstractClass.declare({
 	$name: 'Controller',
