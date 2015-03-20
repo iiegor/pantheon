@@ -1,23 +1,17 @@
-import d from 'dejavu';
 import fs from 'fs';
 
-export default d.Class.declare({
-	$name: 'Router',
-
-	app: null,
-	services: [],
-	controllers: [],
-	_controllersDir: __dirname + '/controllers/',
-
-	initialize(app, services) {
+export default class Router {
+	constructor(app, services) {
 		this.app = app;
 		this.services = services;
+		this.controllers = [];
+		this._controllersDir = __dirname + '/controllers/';
 
 		this._loadControllers();
 
 		this._init();
 		this._statics(); // Others...
-	},
+	}
 
 	_init() {
 		var Router = this;
@@ -35,7 +29,7 @@ export default d.Class.declare({
 			Router.transitionTo('/', res);
 
 		});
-	},
+	}
 
 	_statics() {
 		// Error manifest
@@ -46,7 +40,7 @@ export default d.Class.declare({
 				code: 404
 			});
 		});
-	},
+	}
 
 	_loadControllers() {
 		var controllers = fs.readdirSync(this._controllersDir),
@@ -61,15 +55,15 @@ export default d.Class.declare({
 			// Load the service
 			this._loadController(controllerName, this._controllersDir + controllerName)
 		}
-	},
+	}
 
 	_loadController(name, path) {
 		var Controller = require(path);
 
 		this.controllers[name] = new Controller(this);
-	},
+	}
 
 	transitionTo(path, res) {
 		return res.redirect(path);
 	}
-});
+};

@@ -1,9 +1,7 @@
-import d from 'dejavu';
 import Controller from '../controller';
 
-export default d.Class.declare({
-	$name: 'HomeController',
-	$extends: Controller,
+export default class HomeController extends Controller {
+	name: 'HomeController'
 
 	index(req, res) {
 		// Service call examples
@@ -14,9 +12,9 @@ export default d.Class.declare({
 		//this._services['emitter'].emit('hungry');
 
 		res.render('home.html');
-	},
+	}
 
 	about(req, res) {
 		res.render('about.html');
 	}
-});
+};
