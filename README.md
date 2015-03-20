@@ -35,7 +35,7 @@ In order to speed up and facilitate the creation of controllers and other compon
 
 ## To do
 - [x] ES6 Support.
-- [ ] React server side rendering.
+- [x] React server side rendering.
 - [ ] Better definition for app routes.
 
 ## Authors
