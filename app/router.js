@@ -1,9 +1,7 @@
-'use strict';
+import d from 'dejavu';
+import fs from 'fs';
 
-var d = require('dejavu'),
-	fs = require('fs');
-
-var Router = d.Class.declare({
+export default d.Class.declare({
 	$name: 'Router',
 
 	app: null,
@@ -11,7 +9,7 @@ var Router = d.Class.declare({
 	controllers: [],
 	_controllersDir: __dirname + '/controllers/',
 
-	initialize: function(app, services) {
+	initialize(app, services) {
 		this.app = app;
 		this.services = services;
 
@@ -21,7 +19,7 @@ var Router = d.Class.declare({
 		this._statics(); // Others...
 	},
 
-	_init: function() {
+	_init() {
 		var Router = this;
 
 		this.app.get('/', function(req, res) {
@@ -39,7 +37,7 @@ var Router = d.Class.declare({
 		});
 	},
 
-	_statics: function() {
+	_statics() {
 		// Error manifest
 		this.app.use(function (req, res, next) {
 			res.status(404);
@@ -50,7 +48,7 @@ var Router = d.Class.declare({
 		});
 	},
 
-	_loadControllers: function() {
+	_loadControllers() {
 		var controllers = fs.readdirSync(this._controllersDir),
 			controller,
 			controllerName;
@@ -65,15 +63,13 @@ var Router = d.Class.declare({
 		}
 	},
 
-	_loadController: function(name, path) {
+	_loadController(name, path) {
 		var Controller = require(path);
 
 		this.controllers[name] = new Controller(this);
 	},
 
-	transitionTo: function(path, res) {
+	transitionTo(path, res) {
 		return res.redirect(path);
 	}
 });
-
-module.exports = Router;

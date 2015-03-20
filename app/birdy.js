@@ -1,24 +1,21 @@
-'use strict';
+import d from 'dejavu';
+import fs from 'fs';
+import Router from './router';
 
-var d = require('dejavu'),
-	utils = require('mout'),
-	fs = require('fs'),
-	router = require('./router');
-
-var Birdy = d.Class.declare({
+export default d.Class.declare({
 	$name: 'Birdy',
 
 	_router: null,
 	_servicesDir: __dirname + '/services/',
 	_services: [],
 
-	initialize: function(app) {
+	initialize(app) {
 		this._bootServices();
 
-		this._router = new router(app, this._services);
+		this._router = new Router(app, this._services);
 	},
 
-	_bootServices: function() {
+	_bootServices() {
 		var services = fs.readdirSync(this._servicesDir),
 			service,
 			serviceName;
@@ -33,11 +30,9 @@ var Birdy = d.Class.declare({
 		}
 	},
 
-	_loadService: function(name, path) {
+	_loadService(name, path) {
 		var Service = require(path);
 
 		this._services[name.replace('service', '')] = new Service();
 	}
 });
-
-module.exports = Birdy;

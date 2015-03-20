@@ -1,11 +1,11 @@
-var d = require('dejavu'),
-	Controller = require('../Controller');
+import d from 'dejavu';
+import Controller from '../controller';
 
-var HomeController = d.Class.declare({
+export default d.Class.declare({
 	$name: 'HomeController',
 	$extends: Controller,
 
-	index: function(req, res) {
+	index(req, res) {
 		// Service call examples
 		//this._services['logger'].log(
 		//	'Example using logger service',
@@ -16,9 +16,7 @@ var HomeController = d.Class.declare({
 		res.render('home.html');
 	},
 
-	about: function(req, res) {
+	about(req, res) {
 		res.render('about.html');
 	}
 });
-
-module.exports = HomeController

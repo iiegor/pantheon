@@ -1,11 +1,9 @@
-var d = require('dejavu');
+import d from 'dejavu';
 
-var Logger = d.Class.declare({
+export default d.Class.declare({
 	$name: 'LoggerService',
 
-	log: function() {
+	log() {
 		for(var argument in arguments) console.info('[Birdy] %s', arguments[argument]);
 	}
 });
-
-module.exports = Logger

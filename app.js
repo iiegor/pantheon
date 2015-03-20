@@ -1,3 +1,10 @@
+var colors = require('colors');
+console.log('Please wait while packages are loaded...'.gray);
+
+// ES6 Support
+var babel = require('babel/register');
+
+// Packages
 var habitat = require('habitat');
 var express = require('express');
 var nunjucks = require('nunjucks');
@@ -46,6 +53,5 @@ app.get('/strings/:lang?', i18n.stringsRoute('en-US'));
 
 // Run server
 app.listen(env.get('PORT'), function() {
-	console.log('The environment that the server will run is %s', env.get('ENV'));
-	console.log('Now listening on %d!', env.get('PORT'));
+	console.log('Birdy is listening to %d (port) in %s (mode)!'.green, env.get('PORT'), env.get('ENV'));
 });

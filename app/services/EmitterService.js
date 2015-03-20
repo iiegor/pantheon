@@ -1,27 +1,27 @@
-var d = require('dejavu'),
-	emitter = require('component-emitter'),
-	mout = require('mout');
+import d from 'dejavu';
+import emitter from 'component-emitter';
+import mout from 'mout';
 
-var Emitter = d.Class.declare({
+export default d.Class.declare({
 	$name: 'EmitterService',
 
 	_emitter: null,
 
-	initialize: function() {
+	initialize() {
 		this._emitter = new emitter();
 	},
 
-	emit: function(event) {
+	emit(event) {
 		this._emitter.emit(event);
 	},
 
-	on: function(event, callback) {
+	on(event, callback) {
 		if(!callback) throw new Error('You must define an action for the event "' + event + '"');
 
 		this._emitter.on(event, callback);
 	},
 
-	register: function(events) {
+	register(events) {
 		// If not array break
 		if(!mout.lang.isArray(events)) throw new Error('Parameter "events" must be an array.');
 
@@ -33,5 +33,3 @@ var Emitter = d.Class.declare({
 		}
 	}
 });
-
-module.exports = Emitter

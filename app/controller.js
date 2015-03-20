@@ -1,7 +1,7 @@
-var d = require('dejavu'),
-	Router = require('./router');
+import d from 'dejavu';
+import Router from './router'
 
-var Controller = d.AbstractClass.declare({
+export default d.AbstractClass.declare({
 	$name: 'Controller',
 
 	_router: null,
@@ -20,5 +20,3 @@ var Controller = d.AbstractClass.declare({
 		console.log('loggin')
 	}
 });
-
-module.exports = Controller;
