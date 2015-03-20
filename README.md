@@ -1,4 +1,4 @@
-# birdy [![Build Status](https://travis-ci.org/underc0de/birdy.svg)](https://travis-ci.org/underc0de/birdy) 
+# birdy [![Build Status](https://travis-ci.org/underc0de/birdy.svg)](https://travis-ci.org/underc0de/birdy)
 Make fly your web applications with birdy, an easy way to start developing node.js websites.<br>
 Birdy is based on makerparty source.
 
@@ -32,6 +32,11 @@ Simply run ``grunt``
 
 ## CLI
 In order to speed up and facilitate the creation of controllers and other components, you can use birdy-cli (https://github.com/underc0de/birdy-cli).
+
+## To do
+- [x] ES6 Support.
+- [ ] React server rendering.
+- [ ] Better definition for app routes.
 
 ## Authors
 * Iegor Azuaga (dextrackmedia@gmail.com)
