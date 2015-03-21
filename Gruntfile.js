@@ -74,6 +74,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
 
   // Tasks
+  grunt.registerTask('default', ['build']);
   grunt.registerTask('build', ['less:production', 'cssmin:production', 'uglify:production', 'clean:tmp']);
 
   grunt.registerTask('server:prod', ['build', 'shell:server']);
