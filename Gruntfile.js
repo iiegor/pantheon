@@ -1,67 +1,81 @@
-module.exports = function (grunt) {
+var path = require('path');
 
+module.exports = function (grunt) {
   grunt.initConfig({
+    _tmpDir: path.resolve('.tmp'),
+    _assetsDir: path.resolve('app', 'assets'),
+    _publicDir: path.resolve('public'),
+
     less: {
-      development: {
+      production: {
         files: {
-          'public/compiled/style.css': 'public/css/*.less'
+            '<%= _tmpDir %>/assets/style.css': '<%= _assetsDir %>/stylesheets/*.less'
         }
       }
     },
+
     cssmin: {
-      my_target: {
-        files: [{
-          expand: true,
-          cwd: 'public/compiled/',
-          src: ['style.css', '!style.min.css'],
-          dest: 'public/compiled/',
-          ext: '.min.css'
-        }]
+      production: {
+        files: {
+          '<%= _publicDir %>/assets/style.min.css': ['.tmp/assets/style.css']
+        }
       }
     },
-    watch: {
-      less: {
-        files: ['public/css/**/*.less'],
-        tasks: ['less:development']
+
+    uglify: {
+      production: {
+        files: {
+          "<%= _publicDir %>/assets/app.min.js": ["<%= _assetsDir %>/javascripts/*.js"]
+        }
       }
     },
+
+    clean: {
+      tmp: {
+        src: ["<%= _tmpDir %>/"]
+      }
+    },
+
     shell: {
-      runServer: {
+      server: {
         options: {
           async: true
         },
         command: 'node app.js'
       }
     },
-    uglify: {
-      my_target: {
-        files: {
-          'public/compiled/app.min.js': ['public/js/*.js']
-        }
+
+    watch: {
+      stylesheets: {
+        files: ["<%= _assetsDir %>/stylesheets/*.less"],
+        tasks: ['less:production', 'cssmin:production', 'clean:tmp']
+      },
+
+      javascripts: {
+        files: ["<%= _assetsDir %>/javascripts/*.js"],
+        tasks: ['uglify:production']
       }
     },
+
     gettext_finder: {
-      files: ['views/*.html', 'views/**/*.html'],
+      files: ['app/views/**/*.html'],
       options: {
-        pathToJSON: ['locale/en_US/*.json'],
+        pathToJSON: ['locales/en_US/*.json'],
         ignoreKeys: grunt.file.readJSON('gtf-ignored-keys.json')
-      },
+      }
     }
   });
 
   grunt.loadNpmTasks('grunt-contrib-less');
-  grunt.loadNpmTasks('grunt-shell-spawn');
-  grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-shell-spawn');
+  grunt.loadNpmTasks('grunt-contrib-watch');
 
-  // Default
-  grunt.registerTask('default', ['less', 'cssmin', 'uglify']);
+  // Tasks
+  grunt.registerTask('build', ['less:production', 'cssmin:production', 'uglify:production', 'clean:tmp']);
 
-  // Run server
-  grunt.registerTask('deploy', ['default', 'shell:runServer', 'watch']);
-
-  // Heroku
-  grunt.registerTask('heroku', ['less']);
-
+  grunt.registerTask('server:prod', ['build', 'shell:server']);
+  grunt.registerTask('server:dev', ['build', 'shell:server', 'watch']);
 };

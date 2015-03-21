@@ -2,4 +2,6 @@
 node_modules
 npm-debug.log
 .env
-public/compiled
+.tmp
+public/assets/*
+!public/assets/.gitkeep
