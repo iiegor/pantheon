@@ -9,8 +9,4 @@ export default class Controller {
 		this._router = router;
 		this._services = router.services;
 	}
-
-	log() {
-		console.log('loggin');
-	}
 };
