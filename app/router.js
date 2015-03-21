@@ -1,20 +1,33 @@
 import fs from 'fs';
 
 export default class Router {
-	constructor(app, controllers) {
+	constructor(app) {
 		this.app = app;
-
-		this.controllers = controllers;
 	}
 
-	bind() {
-		/*
-		 * TODO: Better definition for app routes.
-		 */
-		this.app.get('/', (req, res) => this.controllers['home'].index(req, res));
-		this.app.get('/about', (req, res) => this.controllers['home'].about(req, res));
-		this.app.get('/isomorphic', (req, res) => this.controllers['home'].isomorphic(req, res));
-		this.app.get('/transition', (req, res) => this.transitionTo('/', res));
+	/*
+	 * Link the path with the controller
+	 */
+	link(path, extend, controller) {
+		if (!controller) return;
+		
+		if (extend) {
+			this.app.get(path, controller);
+			return;
+		}
+
+		this.app.get(path, (req, res) => {
+			controller(req, res);
+		});
+	}
+
+	linkDefaults() {
+		/* Error page */
+		this.app.use((req, res, next) => {
+			res.status(404);
+
+			res.render('error.html', {code: 404});
+		});
 	}
 
 	transitionTo(path, res) {

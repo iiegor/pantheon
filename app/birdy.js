@@ -1,10 +1,10 @@
 import fs from 'fs';
 import path from 'path';
-import Router from './router';
+import router from './router';
 
 class Birdy {
 	constructor(app) {
-		this.routes = [];
+		this.router = new router(app);
 		this.controllers = [];
 		this.services = [];
 
@@ -13,18 +13,21 @@ class Birdy {
 		this._servicesDir = path.join(__dirname, 'services');
 
 		// Register components
-		this._registerRoutes();
 		this._registerControllers();
 		this._registerServices();
-
-		let router = new Router(app, this.controllers);
-		router.bind();
+		this._registerRoutes();
 	}
 
 	_registerRoutes() {
 		/*
-		 * TODO: Register application routes.
+		 * TODO: Better definition for app routes.
 		 */
+		this.router.link('/', false, this.controllers['home'].index);
+		this.router.link('/about', false, this.controllers['home'].about);
+		this.router.link('/isomorphic', false, this.controllers['home'].isomorphic);
+		this.router.link('/transition', true, (req, res) => this.router.transitionTo('/', res));
+
+		this.router.linkDefaults();
 	}
 
 	_registerControllers() {
