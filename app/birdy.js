@@ -48,7 +48,7 @@ class Birdy {
 			var serviceName = service.split('.', 1)[0];
 		 	var service = require(path.resolve(this._servicesDir, serviceName));
 
-			this.services[serviceName.toLowerCase().replace('service', '')] = service;
+			this.services[serviceName.toLowerCase().replace('service', '')] = new service();
 		});
 	}
 };
