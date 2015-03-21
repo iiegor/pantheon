@@ -37,6 +37,7 @@ In order to speed up and facilitate the creation of controllers and other compon
 - [x] ES6 Support.
 - [x] React server side rendering.
 - [ ] Better definition for app routes.
+- [ ] Update the birdy-cli tool.
 
 ## Authors
 * Iegor Azuaga (dextrackmedia@gmail.com)
