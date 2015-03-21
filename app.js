@@ -45,11 +45,12 @@ app.use(i18n.middleware({
 // Static files
 app.use(express.static(path.resolve(__dirname, 'public')));
 
+// Localized strings
+app.locals.languages = i18n.getSupportLanguages();
+app.get('/strings/:lang?', i18n.stringsRoute('en_US'));
+
 // Boot the application
 new birdy(app);
-
-// Localized Strings
-app.get('/strings/:lang?', i18n.stringsRoute('en-US'));
 
 // Run server
 app.listen(env.get('PORT'), function() {
