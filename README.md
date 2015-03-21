@@ -38,6 +38,7 @@ In order to speed up and facilitate the creation of controllers, views and other
 - [x] React server side rendering.
 - [ ] Better definition for app routes.
 - [ ] Update the birdy-cli tool.
+- [ ] Show a custom page for exceptions in production.
 
 ## Contributors
 * Iegor Azuaga (dextrackmedia@gmail.com)

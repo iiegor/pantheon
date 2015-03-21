@@ -13,8 +13,8 @@ class Birdy {
 		this._servicesDir = path.join(__dirname, 'services');
 
 		// Register components
-		this._registerControllers();
 		this._registerServices();
+		this._registerControllers();
 		this._registerRoutes();
 	}
 

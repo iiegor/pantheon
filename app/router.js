@@ -3,6 +3,8 @@ import fs from 'fs';
 export default class Router {
 	constructor(app) {
 		this.app = app;
+
+		this.services = {};
 	}
 
 	/*
@@ -10,15 +12,13 @@ export default class Router {
 	 */
 	link(path, extend, controller) {
 		if (!controller) return;
-		
+
 		if (extend) {
 			this.app.get(path, controller);
 			return;
 		}
 
-		this.app.get(path, (req, res) => {
-			controller(req, res);
-		});
+		this.app.get(path, (req, res) => controller(req, res));
 	}
 
 	linkDefaults() {

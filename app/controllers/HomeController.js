@@ -3,17 +3,9 @@ import React from 'react/addons';
 
 import IsomorphicComponent from '../components/IsomorphicComponent'
 
-export default class HomeController extends Controller {
-	name: 'HomeController'
+class HomeController extends Controller {
 
 	index(req, res) {
-		// Service call examples
-		//this._services['logger'].log(
-		//	'Example using logger service',
-		//	'Second log'
-		//);
-		//this._services['emitter'].emit('hungry');
-
 		res.render('home.html');
 	}
 
@@ -29,4 +21,7 @@ export default class HomeController extends Controller {
 	about(req, res) {
 		res.render('about.html');
 	}
+
 };
+
+export default HomeController;
