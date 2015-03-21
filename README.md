@@ -31,7 +31,7 @@ The last command compiles your public files and then run the server.
 Simply run ``grunt``
 
 ## CLI
-In order to speed up and facilitate the creation of controllers and other components, you can use birdy-cli (https://github.com/underc0de/birdy-cli).
+In order to speed up and facilitate the creation of controllers, views and other components, you can use birdy-cli (https://github.com/underc0de/birdy-cli).
 
 ## To do
 - [x] ES6 Support.
@@ -39,5 +39,5 @@ In order to speed up and facilitate the creation of controllers and other compon
 - [ ] Better definition for app routes.
 - [ ] Update the birdy-cli tool.
 
-## Authors
+## Contributors
 * Iegor Azuaga (dextrackmedia@gmail.com)
