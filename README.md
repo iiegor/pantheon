@@ -1,4 +1,4 @@
-# birdy [![Build Status](https://travis-ci.org/underc0de/birdy.svg)](https://travis-ci.org/underc0de/birdy) ![](https://david-dm.org/underc0de/birdy.svg)
+# birdy [![Build Status](https://travis-ci.org/iiegor/birdy.svg)](https://travis-ci.org/iiegor/birdy) ![](https://david-dm.org/iiegor/birdy.svg)
 Make fly your web applications with birdy, an easy way to start developing node.js websites.<br>
 Birdy is based on makerparty source.
 
@@ -31,7 +31,7 @@ The last command compiles your public files and then run the server.
 Simply run ``grunt``
 
 ## CLI
-In order to speed up and facilitate the creation of controllers, views and other components, you can use birdy-cli (https://github.com/underc0de/birdy-cli).
+In order to speed up and facilitate the creation of controllers, views and other components, you can use birdy-cli (https://github.com/iiegor/birdy-cli).
 
 ## To do
 - [x] ES6 Support.
