@@ -22,10 +22,10 @@ class Birdy {
 		/*
 		 * TODO: Better definition for app routes.
 		 */
-		this.router.link('/', false, this.controllers['home'].index);
-		this.router.link('/about', false, this.controllers['home'].about);
-		this.router.link('/isomorphic', false, this.controllers['home'].isomorphic);
-		this.router.link('/transition', true, (req, res) => this.router.transitionTo('/', res));
+		this.router.link('/', this.controllers['home'].index);
+		this.router.link('/about', this.controllers['home'].about);
+		this.router.link('/isomorphic', this.controllers['home'].isomorphic);
+		this.router.link('/transition', (req, res) => this.router.transitionTo('/', res));
 
 		this.router.linkDefaults();
 	}

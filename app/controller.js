@@ -1,6 +1,12 @@
+var services = null;
+
 class Controller {
 	constructor(birdy) {
-		this._services = birdy.services;
+		services = birdy.services;
+	}
+
+	static get services() {
+		return services;
 	}
 };
 

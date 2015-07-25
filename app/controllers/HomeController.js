@@ -6,6 +6,11 @@ import IsomorphicComponent from '../components/IsomorphicComponent'
 class HomeController extends Controller {
 
 	index(req, res) {
+		/**
+		 * Calling a service inside a controller:
+		 * HomeController.services['logger'].log('example');
+		 */
+
 		res.render('home.html');
 	}
 

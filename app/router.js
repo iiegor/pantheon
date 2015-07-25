@@ -10,15 +10,10 @@ export default class Router {
 	/*
 	 * Link the path with the controller
 	 */
-	link(path, extend, controller) {
+	link(path, controller) {
 		if (!controller) return;
 
-		if (extend) {
-			this.app.get(path, controller);
-			return;
-		}
-
-		this.app.get(path, (req, res) => controller(req, res));
+		this.app.get(path, controller);
 	}
 
 	linkDefaults() {
