@@ -20,7 +20,7 @@ habitat.load();
 
 // Instantiate
 var app = express(),
-		env = new habitat('birdy');
+	env = new habitat('birdy');
 
 app.use(bodyParser.urlencoded({	extended: true	}));
 app.use(bodyParser.json());
@@ -52,7 +52,13 @@ app.get('/strings/:lang?', i18n.stringsRoute('en_US'));
 // Boot the application
 new birdy(app);
 
-// Run server
-app.listen(env.get('PORT'), function() {
-	console.log('Birdy is listening to %d (port) in %s (mode)!'.green, env.get('PORT'), env.get('ENV'));
+require('http').createServer(app).listen(env.get('SERVICE_PORT'), function() {
+	console.log('Birdy HTTP server is listening to %d (port) in %s (mode)!'.green, env.get('SERVICE_PORT'), env.get('ENV'));
+});
+
+if (env.get('HTTPS_ENABLED')) require('https').createServer({
+	key: fs.readFileSync(env.get('HTTPS_KEY')),
+	cert: fs.readFileSync(env.get('HTTPS_CERT'))
+}, app).listen(env.get('HTTPS_PORT'), function() {
+	console.log('Birdy HTTPS server is listening to %d (port) in %s (mode) with https enabled!'.green, env.get('HTTPS_PORT'), env.get('ENV'));
 });

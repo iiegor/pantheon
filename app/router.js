@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-export default class Router {
+class Router {
 	constructor(app) {
 		this.app = app;
 
@@ -29,3 +29,5 @@ export default class Router {
 		return res.redirect(path);
 	}
 };
+
+export default Router;
