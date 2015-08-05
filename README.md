@@ -19,11 +19,11 @@ cp .env-dist .env
 ```
 At the last, run the following command for run the server:
 ```
-node app
+node bin/birdy
 ```
 or
 ```
-grunt deploy
+npm start
 ```
 The last command compiles your public files and then run the server.
 
@@ -36,9 +36,9 @@ In order to speed up and facilitate the creation of controllers, views and other
 ## To do
 - [x] ES6 Support.
 - [x] React server side rendering.
-- [ ] Better definition for app routes.
-- [ ] Update the birdy-cli tool.
+- [x] Better definition for app routes.
 - [ ] Show a custom page for exceptions in production.
+- [ ] API support.
 
 ## Contributors
 * Iegor Azuaga (dextrackmedia@gmail.com)

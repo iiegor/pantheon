@@ -4,4 +4,4 @@ export default {
   /*
    * You can add default component functions
    */
-};
+}

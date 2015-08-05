@@ -1,13 +1,15 @@
-var services = null;
+var services = null
 
 class Controller {
+
 	constructor(birdy) {
-		services = birdy.services;
+		services = birdy.services
 	}
 
 	static get services() {
-		return services;
+		return services
 	}
-};
+	
+}
 
-export default Controller;
+export default Controller
