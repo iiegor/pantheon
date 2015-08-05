@@ -1,6 +1,9 @@
 var path = require('path');
 
 module.exports = function (grunt) {
+
+  require('load-grunt-tasks')(grunt);
+
   grunt.initConfig({
     _tmpDir: path.resolve('.tmp'),
     _assetsDir: path.resolve('app', 'assets'),
@@ -22,13 +25,26 @@ module.exports = function (grunt) {
       }
     },
 
+    browserify: {
+      production: {
+        files: {
+         '<%= _publicDir %>/assets/app.min.js': '<%= _assetsDir %>/javascripts/application.js',
+        },
+
+        options: {
+          transform: ['uglifyify']
+        }
+      }
+    },
+
+    /*
     uglify: {
       production: {
         files: {
           "<%= _publicDir %>/assets/app.min.js": ["<%= _assetsDir %>/javascripts/*.js"]
         }
       }
-    },
+    },*/
 
     clean: {
       tmp: {
@@ -66,16 +82,9 @@ module.exports = function (grunt) {
     }
   });
 
-  grunt.loadNpmTasks('grunt-contrib-less');
-  grunt.loadNpmTasks('grunt-contrib-clean');
-  grunt.loadNpmTasks('grunt-contrib-cssmin');
-  grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-shell-spawn');
-  grunt.loadNpmTasks('grunt-contrib-watch');
-
   // Tasks
   grunt.registerTask('default', ['build']);
-  grunt.registerTask('build', ['less:production', 'cssmin:production', 'uglify:production', 'clean:tmp']);
+  grunt.registerTask('build', ['less:production', 'cssmin:production', 'browserify:production', 'clean:tmp']);
 
   grunt.registerTask('server:prod', ['build', 'shell:server']);
   grunt.registerTask('server:dev', ['build', 'shell:server', 'watch']);

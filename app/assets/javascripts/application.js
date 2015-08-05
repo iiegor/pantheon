@@ -1,5 +1,3 @@
-function hello(array) {
-	console.log(array);
-}
+var Util = require('./util');
 
-hello(['B', 'i', 'r', 'd', 'y']);
+Util.say(['B', 'i', 'r', 'd', 'y']);
