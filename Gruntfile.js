@@ -37,15 +37,6 @@ module.exports = function (grunt) {
       }
     },
 
-    /*
-    uglify: {
-      production: {
-        files: {
-          "<%= _publicDir %>/assets/app.min.js": ["<%= _assetsDir %>/javascripts/*.js"]
-        }
-      }
-    },*/
-
     clean: {
       tmp: {
         src: ["<%= _tmpDir %>/"]
