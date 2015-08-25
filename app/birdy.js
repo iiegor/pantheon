@@ -5,7 +5,6 @@ import router from './router'
 var Controllers = null
 var Services = null
 
-
 class Birdy {
 
 	constructor(app) {
