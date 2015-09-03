@@ -7,6 +7,7 @@ var path = require('path');
 var fs = require('fs');
 var argv = require('yargs').argv;
 var del = require('del');
+var sequence = require('run-sequence');
 
 var vulcanize = require('gulp-vulcanize');
 var crisper = require('gulp-crisper');
@@ -16,21 +17,20 @@ var pkg = require('./package.json');
 var PUBLIC_DIR = 'public';
 var PROD_DIR = PUBLIC_DIR + '/builds';
 var ASSETS_DIR = 'app/assets';
-var COMPONENTS_DIR = 'bower_components';
 
 var DEV = Boolean(argv.dev) || false;
 var VERSION = argv.build || 'pkg-' + pkg.version.charAt(0) + Math.random().toString(36).substr(1, 5); // pkg-VERSION.RANDOM
 var CLEAN = Boolean(argv.clean) || true; // clean old builds
 
-gulp.task('clean', function(callback) {
-  del([
+gulp.task('clean', function() {
+  return del([
     PROD_DIR
-  ], callback);
+  ]);
 });
 
 gulp.task('copy-bower_components', function() {
-  gulp.src(COMPONENTS_DIR + '/webcomponentsjs/webcomponentsjs-lite.min.js', { base: './' })
-    .pipe(gulp.dest( path.join(PUBLIC_DIR) ));
+  gulp.src('bower_components/webcomponentsjs/webcomponents-lite.min.js', { base: './' })
+    .pipe(gulp.dest( path.join(PROD_DIR, VERSION) ));
 });
 
 gulp.task('vulcanize-elements', function() {
@@ -50,12 +50,7 @@ gulp.task('bump', function() {
   });
 });
 
-gulp.task('build', function() {
-  var tasks = ['copy-bower_components', 'vulcanize-elements', 'bump'];
-
-  if (CLEAN)
-    tasks.unshift('clean');
-
-  gulp.start(tasks);
+gulp.task('build', function(callback) {
+  sequence('clean', 'vulcanize-elements', 'copy-bower_components', 'bump', callback);
 });
 gulp.task('default', ['build']);
