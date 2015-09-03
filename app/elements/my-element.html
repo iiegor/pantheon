@@ -1,0 +1,25 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<dom-module id="my-element">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <h1>{{head}}</h1>
+    <p>{{text}}</p>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'my-element',
+
+      properties: {
+        head: { type: String, notify: false },
+        text: { type: String, notify: false }
+      }
+    });
+  </script>
+</dom-module>
