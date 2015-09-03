@@ -1,8 +1,13 @@
 <!doctype html>
 <html>
 <head>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1">
+
+	<title>{% block title %}{% endblock %}</title>
+	<meta name="description" content="My site description">
+
+	<style>html {height: 100%;}body {height: 100%;margin: 0px;background-color: #F5F5F5;}</style>
 
 	<!-- sharing -->
 	<meta property="og:type" content="website" />
@@ -13,19 +18,15 @@
 	{% endfor %}
 	<meta property="og:title" content="Birdy" />
 	<meta property="og:description" content="My Birdy website description." />
-
-	<meta property="description" content="My Birdy website description." />
 	<!-- /sharing -->
-
-	<title>{% block title %}{% endblock %}</title>
-	<link rel="stylesheet" href="/assets/style.min.css">
+	
+	<script type="text/javascript" src="{{ BUILD }}/bower_components/webcomponentsjs/webcomponents-lite.min.js" name="www-webcomponentsjs"></script>
+	<link rel="import" href="{{ BUILD }}/elements.html" name="www-{{ BUILD }}">
 	{% block styles %}{% endblock %}
 </head>
 <body class="{% if page %}{{ page }}{% endif %}">
 	<main role="main">
 		{% block yield %}{% endblock %}
 	</main>
-
-	<script type="text/javascript" src="/assets/app.min.js"></script>
 </body>
 </html>

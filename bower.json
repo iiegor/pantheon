@@ -1,0 +1,19 @@
+{
+  "name": "birdy",
+  "version": "0.2.0",
+  "homepage": "https://github.com/iiegor/birdy",
+  "authors": [
+    "Iegor Azuaga <dextrackmedia@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "~1.1.2"
+  }
+}

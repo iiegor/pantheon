@@ -23,6 +23,7 @@ if ('prod' == env.get('ENV')) app.disable('verbose errors')
 
 app.use(bodyParser.urlencoded({	extended: true	}))
 app.use(bodyParser.json())
+app.use(express.static(path.resolve(__dirname, 'public', 'builds')))
 app.use(express.static(path.resolve(__dirname, 'public')))
 app.use(i18n.middleware({
   supported_languages: env.get('SUPPORTED_LANGS'),
@@ -32,6 +33,7 @@ app.use(i18n.middleware({
 }))
 
 nunjucksEnv.express(app)
+nunjucksEnv.addGlobal('BUILD', require('./.build.json').version)
 nunjucksEnv.addFilter('instantiate', function(input) {
   var tmpl = new nunjucks.Template(input)
 

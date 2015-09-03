@@ -4,6 +4,5 @@
 {% block title %}About{% endblock %}
 
 {% block yield %}
-	<h1>{{ gettext("h1_welcome") }} home#about</h1>
-	<p>{{ gettext("p_welcome") }} app/views/about.html</p>
+  <my-element head="{{ gettext("h1_welcome") }} home#about" text="{{ gettext("p_welcome") }} app/views/about.html"></my-element>
 {% endblock %}

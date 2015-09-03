@@ -1,7 +1,11 @@
 # Node
+bower_components
 node_modules
 npm-debug.log
 .env
 .tmp
+.build.json
+public/bower_components/*
+public/builds/*
 public/assets/*
 !public/assets/.gitkeep
