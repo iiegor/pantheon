@@ -2,9 +2,6 @@ import fs from 'fs'
 import path from 'path'
 import router from './router'
 
-var Controllers = null
-var Services = null
-
 class Birdy {
 
 	constructor(app) {
