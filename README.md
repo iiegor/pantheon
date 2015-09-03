@@ -1,5 +1,5 @@
 # birdy [![Build Status](https://travis-ci.org/iiegor/birdy.svg)](https://travis-ci.org/iiegor/birdy) ![](https://david-dm.org/iiegor/birdy.svg)
-Make fly your web applications with birdy, an easy way to start developing node.js websites.<br>
+Make fly your web applications with birdy, an easy way to start developing node.js websites with all the newest technologies.
 
 ## Setup
 Clone the git running ``git clone <repository-url>``, go to the folder and run ``npm run deps``
