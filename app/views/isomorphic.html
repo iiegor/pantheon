@@ -4,5 +4,7 @@
 {% block title %}Birdy - Isomorphic component{% endblock %}
 
 {% block yield %}
-  {{ output }}
+  <my-element head="{{ gettext("h1_welcome") }} home#isomorphic">
+    {{ output }}
+  </my-element>
 {% endblock %}
