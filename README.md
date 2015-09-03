@@ -2,32 +2,19 @@
 Make fly your web applications with birdy, an easy way to start developing node.js websites.<br>
 
 ## Get birdy
-Clone the git running ``git clone <repository-url>`` or ``npm install birdy-server``
+Clone the git running ``git clone <repository-url>``
 
-## Installation
-You need to have installed grunt-cli, run:
-```
-npm install -g grunt-cli
-```
+## Setup
+``npm run deps``
 
-When you have grunt-cli installed (type grunt in the console to check) run the following commands to prepare the project:
-```
-npm install
-grunt
-cp .env-dist .env
-```
-At the last, run the following command for run the server:
-```
-node bin/birdy
-```
-or
-```
-npm start
-```
-The last command compiles your public files and then run the server.
+## Development
+#### Requirements
+- Gulp globally installed, ``npm install --global gulp``
 
-## Compile
-Simply run ``grunt``
+#### Compiling
+```sh
+gulp build [--dev] [--build] [--clean]
+```
 
 ## CLI
 In order to speed up and facilitate the creation of controllers, views and other components, you can use birdy-cli (https://github.com/iiegor/birdy-cli).
