@@ -7,7 +7,7 @@ Clone the git running ``git clone <repository-url>``, go to the folder and run `
 ## Run
 **Note:** You will need to have gulp globally installed, ``npm install --global gulp``
 
-First build the polymer elements, assets and other things by running:
+First build assets, elements and other things by running:
 ```sh
 gulp build [--dev] [--build] [--clean]
 ```
