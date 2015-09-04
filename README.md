@@ -17,5 +17,8 @@ Then you are ready to start the server by running: ``npm run start``
 ## CLI
 In order to speed up and facilitate the creation of controllers, views and other components, you can use birdy-cli (https://github.com/iiegor/birdy-cli).
 
+## Documentation
+See the [repository](http://iiegor.github.io/birdy) website.
+
 ## Contributors
 * Iegor Azuaga (dextrackmedia@gmail.com)
