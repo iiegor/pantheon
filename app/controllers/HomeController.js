@@ -8,7 +8,7 @@ class HomeController extends Controller {
 	index(req, res) {
 		/**
 		 * Calling a service inside a controller:
-		 * HomeController.services['logger'].log('example');
+		 * this.services['logger'].log('Hello!');
 		 */
 
 		res.render('home.html')

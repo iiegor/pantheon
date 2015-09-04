@@ -2,10 +2,10 @@ import fs from 'fs'
 
 class Router {
 
-	constructor(app) {
+	constructor(app, birdy) {
 		this.app = app
 
-		this.services = {}
+		this.birdy = birdy
 	}
 
 	/*
@@ -14,7 +14,8 @@ class Router {
 	link(path, controller) {
 		if (!controller) return
 
-		this.app.get(path, controller)
+		// Route and bind the controller
+		this.app.get(path, controller.bind(this.birdy))
 	}
 
 	linkDefaults() {

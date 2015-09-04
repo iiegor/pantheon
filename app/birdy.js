@@ -5,7 +5,7 @@ import router from './router'
 class Birdy {
 
 	constructor(app) {
-		this.router = new router(app)
+		this.router = new router(app, this)
 		this.controllers = []
 		this.services = []
 
@@ -52,7 +52,7 @@ class Birdy {
 			this.services[serviceName.toLowerCase().replace('service', '')] = new service()
 		})
 	}
-
+	
 }
 
 export default Birdy
