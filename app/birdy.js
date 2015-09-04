@@ -15,31 +15,16 @@ class Birdy {
 
 		// Register components
 		this._registerServices()
-		this._registerControllers()
 		this._registerRoutes()
 	}
 
 	_registerRoutes() {
-		/*
-		 * TODO: Better definition for app routes.
-		 */
-		this.router.link('/', this.controllers['home'].index)
-		this.router.link('/about', this.controllers['home'].about)
-		this.router.link('/isomorphic', this.controllers['home'].isomorphic)
+		this.router.link('/', this.import('home').index)
+		this.router.link('/about', this.import('home').about)
+		this.router.link('/isomorphic', this.import('home').isomorphic)
 		this.router.link('/transition', (req, res) => this.router.transitionTo('/', res))
 
 		this.router.linkDefaults()
-	}
-
-	_registerControllers() {
-		var controllers = fs.readdirSync(this._controllersDir)
-
-		controllers.forEach(controller => {
-			var controllerName = controller.split('.', 1)[0]
-			var controller = require(path.resolve(this._controllersDir, controllerName))
-
-			this.controllers[controllerName.toLowerCase().replace('controller', '')] = new controller(this)
-		})
 	}
 
 	_registerServices() {
@@ -51,6 +36,17 @@ class Birdy {
 
 			this.services[serviceName.toLowerCase().replace('service', '')] = new service()
 		})
+	}
+
+	import(name) {
+		if (!this.controllers[name]) {
+			var controllerName = name.charAt(0).toUpperCase() + name.slice(1)
+			var controller = require(path.resolve(this._controllersDir, controllerName.concat('Controller.js')))
+
+			this.controllers[name] = new controller(this)
+		}
+
+		return this.controllers[name]
 	}
 	
 }

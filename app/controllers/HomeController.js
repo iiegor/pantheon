@@ -10,7 +10,7 @@ class HomeController extends Controller {
 		 * Calling a service inside a controller:
 		 * this.services['logger'].log('Hello!');
 		 */
-
+		
 		res.render('home.html')
 	}
 
