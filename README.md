@@ -2,7 +2,7 @@
 Make fly your web applications with birdy, an easy way to start developing node.js websites with all the newest technologies.
 
 ## Setup
-Clone the git running ``git clone <repository-url>``, go to the folder and run ``npm run deps``
+Clone the git running ``git clone <repository-url>``, go to the folder, run ``npm run deps`` and finally do ``cp .env-dist .env``
 
 ## Run
 **Note:** You will need to have gulp globally installed, ``npm install --global gulp``
