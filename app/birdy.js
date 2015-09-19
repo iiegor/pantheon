@@ -32,10 +32,10 @@ class Birdy {
 
 		services.forEach(service => {
 			var serviceName = service.split('.', 1)[0]
-		 	var service = require(path.resolve(this._servicesDir, serviceName))
+      var service = require(path.resolve(this._servicesDir, serviceName))
 
-			this.services[serviceName.toLowerCase().replace('service', '')] = new service()
-		})
+      this.services[serviceName.toLowerCase().replace('service', '')] = new service()
+    })
 	}
 
 	import(name) {

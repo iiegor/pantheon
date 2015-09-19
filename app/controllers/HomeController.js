@@ -10,22 +10,22 @@ class HomeController extends Controller {
 		 * Calling a service inside a controller:
 		 * this.services['logger'].log('Hello!');
 		 */
-		
-		res.render('home.html')
-	}
+     
+     res.render('home.html')
+   }
 
-	isomorphic(req, res) {
-		var factory = React.createFactory(IsomorphicComponent)
-		var reactHTML = React.renderToString(factory({}))
+   isomorphic(req, res) {
+    var factory = React.createFactory(IsomorphicComponent)
+    var reactHTML = React.renderToString(factory({}))
 
-		res.render('isomorphic.html', {
-			output: reactHTML
-		})
-	}
+    res.render('isomorphic.html', {
+     output: reactHTML
+   })
+  }
 
-	about(req, res) {
-		res.render('about.html')
-	}
+  about(req, res) {
+    res.render('about.html')
+  }
 
 }
 

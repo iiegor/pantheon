@@ -11,25 +11,25 @@ class Router {
 	/*
 	 * Link the path with the controller
 	 */
-	link(path, controller) {
-		if (!controller) return
+  link(path, controller) {
+    if (!controller) return
 
 		// Route and bind the controller
-		this.app.get(path, controller.bind(this.birdy))
-	}
+    this.app.get(path, controller.bind(this.birdy))
+  }
 
-	linkDefaults() {
-		/* Error page */
-		this.app.use((req, res, next) => {
-			res.status(404)
+  linkDefaults() {
+    /* Error page */
+    this.app.use((req, res, next) => {
+      res.status(404)
 
-			res.render('error.html', {code: 404})
-		})
-	}
+      res.render('error.html', {code: 404})
+    })
+  }
 
-	transitionTo(path, res) {
-		return res.redirect(path)
-	}
+  transitionTo(path, res) {
+    return res.redirect(path)
+  }
 }
 
 export default Router
