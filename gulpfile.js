@@ -30,10 +30,6 @@ gulp.task('clean', function() {
   ]);
 });
 
-gulp.task('stylesheet', function() {
-  
-});
-
 gulp.task('copy-bower_components', function () {
   gulp.src('bower_components/webcomponentsjs/webcomponents-lite.min.js', { base: './' })
     .pipe(gulp.dest( path.join(PROD_DIR, VERSION) ));

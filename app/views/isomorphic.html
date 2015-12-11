@@ -7,6 +7,10 @@
   <my-element head="{{ gettext("h1_welcome") }} home#isomorphic">
     <style>{{ styles }}</style>
     
+    <!-- React server-side output -->
     {{ output }}
+    
+    <!-- Normal html using the encapsulated css -->
+    <h2 class="{{ classes.h2 }}">test</h2>
   </my-element>
 {% endblock %}

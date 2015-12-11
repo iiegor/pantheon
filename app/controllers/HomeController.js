@@ -20,6 +20,7 @@ class HomeController extends Controller {
 
     res.render('isomorphic.html', {
       styles: IsomorphicComponent.styles,
+      classes: IsomorphicComponent.classes,
       output: ReactDOM.renderToString(component({}))
     })
   }
