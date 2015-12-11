@@ -1,5 +1,6 @@
 import Controller from '../controller'
-import React from 'react/addons'
+import React from 'react'
+import ReactDOM from 'react-dom/server'
 
 import IsomorphicComponent from '../components/IsomorphicComponent'
 
@@ -15,12 +16,12 @@ class HomeController extends Controller {
    }
 
    isomorphic(req, res) {
-    var factory = React.createFactory(IsomorphicComponent)
-    var reactHTML = React.renderToString(factory({}))
+    let component = React.createFactory(IsomorphicComponent)
 
     res.render('isomorphic.html', {
-     output: reactHTML
-   })
+      styles: IsomorphicComponent.styles,
+      output: ReactDOM.renderToString(component({}))
+    })
   }
 
   about(req, res) {

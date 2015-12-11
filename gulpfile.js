@@ -12,6 +12,8 @@ var sequence = require('run-sequence');
 var vulcanize = require('gulp-vulcanize');
 var crisper = require('gulp-crisper');
 
+var stilr = require('stilr');
+
 var pkg = require('./package.json');
 
 var PUBLIC_DIR = 'public';
@@ -28,12 +30,16 @@ gulp.task('clean', function() {
   ]);
 });
 
-gulp.task('copy-bower_components', function() {
+gulp.task('stylesheet', function() {
+  
+});
+
+gulp.task('copy-bower_components', function () {
   gulp.src('bower_components/webcomponentsjs/webcomponents-lite.min.js', { base: './' })
     .pipe(gulp.dest( path.join(PROD_DIR, VERSION) ));
 });
 
-gulp.task('vulcanize-elements', function() {
+gulp.task('vulcanize-elements', function () {
   return gulp.src(['app/elements/elements.html'], { base: 'app/elements' })
     .pipe(vulcanize({
       inlineScripts: true,
@@ -44,13 +50,14 @@ gulp.task('vulcanize-elements', function() {
     .pipe(gulp.dest( path.join(PROD_DIR, VERSION) ));
 });
 
-gulp.task('bump', function() {
+gulp.task('bump', function () {
   fs.writeFile( path.join('.', '.build.json') , JSON.stringify({version: VERSION}), function(err) {
     if (err) console.error('Can\'t bump the version!');
   });
 });
 
-gulp.task('build', function(callback) {
+gulp.task('build', function (callback) {
   sequence('clean', 'vulcanize-elements', 'copy-bower_components', 'bump', callback);
 });
+
 gulp.task('default', ['build']);

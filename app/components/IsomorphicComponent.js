@@ -1,15 +1,26 @@
-import Component from '../component'
-import React from 'react/addons'
+import React from 'react'
+import StyleSheet from 'stilr'
 
-export default React.createClass({
+var CSS = StyleSheet.create({
+  p: {
+    backgroundColor: 'red'
+  }
+})
 
-  displayName: 'IsomorphicComponent',
-  mixins: [Component],
+export default class IsomorphicComponent extends React.Component {
 
-  render: function() {
+  render() {
     return (
-      <p>Hello from {this.constructor.displayName}!</p>
-    )
+      <p className={CSS.p}>Hello from {this.constructor.displayName}!</p>
+    );
   }
 
-})
+  static get styles() {
+    return StyleSheet.render()
+  }
+
+}
+
+export var a = {
+
+}

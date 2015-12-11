@@ -5,6 +5,8 @@
 
 {% block yield %}
   <my-element head="{{ gettext("h1_welcome") }} home#isomorphic">
+    <style>{{ styles }}</style>
+    
     {{ output }}
   </my-element>
 {% endblock %}
