@@ -1,6 +1,6 @@
 {
   "name": "birdy-server",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Web server",
   "bin": {
     "birdy": "./bin/birdy"
