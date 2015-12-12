@@ -20,5 +20,5 @@ In order to speed up and facilitate the creation of controllers, views and other
 ## Documentation
 See the [repository](http://iiegor.github.io/birdy) website.
 
-## Contributors
-* Iegor Azuaga (dextrackmedia@gmail.com)
+## Maintainers
+See the [MAINTAINERS](https://github.com/iiegor/birdy/blob/master/MAINTAINERS) file.
