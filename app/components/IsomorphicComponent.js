@@ -1,15 +1,43 @@
-import Component from '../component'
-import React from 'react/addons'
+import React from 'react'
+import ReactDOM from 'react-dom/server'
+import StyleSheet from 'stilr'
 
-export default React.createClass({
+var CSS = StyleSheet.create({
+  p: {
+    backgroundColor: 'red'
+  },
 
-  displayName: 'IsomorphicComponent',
-  mixins: [Component],
+  nav: {
+    color: 'blue',
+    padding: '12px',
+    backgroundColor: 'black',
+    margin: 0
+  },
 
-  render: function() {
+  navLink: {
+    textDecoration: 'none',
+    padding: '12px 5px',
+    color: 'inherit'
+  }
+})
+
+/**
+ * TODO:
+ *  Cache StyleSheet.render() instead of running it every request
+ *  Add a route to request the cached css (ex. /assets/style-hash.css or similar)
+ */
+class IsomorphicComponent extends React.Component {
+
+  render() {
     return (
-      <p>Hello from {this.constructor.displayName}!</p>
-    )
+      <p className={CSS.p}>Hello from {this.constructor.name}!</p>
+    );
   }
 
-})
+}
+
+export default {
+  styles: StyleSheet.render(),
+  classes: CSS,
+  output: ReactDOM.renderToString(React.createFactory(IsomorphicComponent)({}))
+}

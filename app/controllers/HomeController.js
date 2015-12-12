@@ -1,7 +1,6 @@
 import Controller from '../controller'
-import React from 'react/addons'
 
-import IsomorphicComponent from '../components/IsomorphicComponent'
+let IsomorphicComponent = require('../components/IsomorphicComponent')
 
 class HomeController extends Controller {
 
@@ -10,17 +9,12 @@ class HomeController extends Controller {
 		 * Calling a service inside a controller:
 		 * this.services['logger'].log('Hello!');
 		 */
-     
-     res.render('home.html')
-   }
 
-   isomorphic(req, res) {
-    var factory = React.createFactory(IsomorphicComponent)
-    var reactHTML = React.renderToString(factory({}))
+    res.render('home.html')
+  }
 
-    res.render('isomorphic.html', {
-     output: reactHTML
-   })
+  isomorphic(req, res) {
+    res.render('isomorphic.html', IsomorphicComponent)
   }
 
   about(req, res) {
