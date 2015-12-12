@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactDOM from 'react-dom/server'
 import StyleSheet from 'stilr'
 
 var CSS = StyleSheet.create({
@@ -6,8 +7,17 @@ var CSS = StyleSheet.create({
     backgroundColor: 'red'
   },
 
-  h2: {
-    color: 'blue'
+  nav: {
+    color: 'blue',
+    padding: '12px',
+    backgroundColor: 'black',
+    margin: 0
+  },
+
+  navLink: {
+    textDecoration: 'none',
+    padding: '12px 5px',
+    color: 'inherit'
   }
 })
 
@@ -16,7 +26,7 @@ var CSS = StyleSheet.create({
  *  Cache StyleSheet.render() instead of running it every request
  *  Add a route to request the cached css (ex. /assets/style-hash.css or similar)
  */
-export default class IsomorphicComponent extends React.Component {
+class IsomorphicComponent extends React.Component {
 
   render() {
     return (
@@ -24,14 +34,10 @@ export default class IsomorphicComponent extends React.Component {
     );
   }
 
-  static get styles() {
-    console.log('called!')
+}
 
-    return StyleSheet.render()
-  }
-
-  static get classes() {
-    return CSS
-  }
-
+export default {
+  styles: StyleSheet.render(),
+  classes: CSS,
+  output: ReactDOM.renderToString(React.createFactory(IsomorphicComponent)({}))
 }

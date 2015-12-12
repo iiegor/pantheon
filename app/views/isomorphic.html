@@ -4,13 +4,14 @@
 {% block title %}Birdy - Isomorphic component{% endblock %}
 
 {% block yield %}
-  <my-element head="{{ gettext("h1_welcome") }} home#isomorphic">
-    <style>{{ styles }}</style>
-    
-    <!-- React server-side output -->
-    {{ output }}
-    
-    <!-- Normal html using the encapsulated css -->
-    <h2 class="{{ classes.h2 }}">test</h2>
-  </my-element>
+  <style>{{ styles }}</style>
+
+  <!-- Normal html using the encapsulated css -->
+  <nav class="{{ classes.nav }}">
+    <a href="/" class="{{ classes.navLink }}">Home</a>
+    <a href="/about" class="{{ classes.navLink }}">About</a>
+  </nav>
+  
+  <!-- React server-side output -->
+  {{ output }}
 {% endblock %}
