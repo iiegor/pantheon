@@ -21,11 +21,6 @@ var CSS = StyleSheet.create({
   }
 })
 
-/**
- * TODO:
- *  Cache StyleSheet.render() instead of running it every request
- *  Add a route to request the cached css (ex. /assets/style-hash.css or similar)
- */
 class IsomorphicComponent extends React.Component {
 
   render() {
