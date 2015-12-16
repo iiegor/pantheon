@@ -1,6 +1,6 @@
 import Controller from '../controller'
 
-let IsomorphicComponent = require('../components/IsomorphicComponent')
+let HomeComponent = require('../components/HomeComponent')
 
 class HomeController extends Controller {
 
@@ -9,12 +9,8 @@ class HomeController extends Controller {
 		 * Calling a service inside a controller:
 		 * this.services['logger'].log('Hello!');
 		 */
-
-    res.render('home.html')
-  }
-
-  isomorphic(req, res) {
-    res.render('isomorphic.html', IsomorphicComponent)
+    
+    res.render('home.html', HomeComponent)
   }
 
 }

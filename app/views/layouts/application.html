@@ -2,6 +2,10 @@
 <html itemtype="http://schema.org/WebPage" lang="{{ localeInfo.lang }}">
 <head>
 	<meta charset="utf-8">
+	{% for resource in js.head %}
+	<script src="{{ resource }}" crossorigin="anonymous"></script>
+	{% endfor %}
+
 	<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1">
 
 	<title>{% block title %}{% endblock %}</title>
@@ -20,11 +24,18 @@
 	<meta property="og:description" content="My Birdy website description." />
 	<!-- /sharing -->
 	
+	{% for resource in css %}
+	<link type="text/css" rel="stylesheet" href="{{ resource }}" crossorigin="anonymous" />
+	{% endfor %}
 	{% block styles %}{% endblock %}
 </head>
 <body class="{% if page %}{{ page }}{% endif %}">
 	<main role="main">
 		{% block yield %}{% endblock %}
 	</main>
+
+	{% for resource in js.body %}
+	<script src="{{ resource }}" crossorigin="anonymous"></script>
+	{% endfor %}
 </body>
 </html>

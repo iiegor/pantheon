@@ -5,6 +5,8 @@ import router from './router'
 class Birdy {
 
 	constructor(app) {
+		global.birdy = this
+
 		this.router = new router(app, this)
 		this.controllers = []
 		this.services = []
@@ -20,7 +22,6 @@ class Birdy {
 
 	_registerRoutes() {
 		this.router.link('/', this.import('home').index)
-		this.router.link('/isomorphic', this.import('home').isomorphic)
 		this.router.link('/transition', (req, res) => this.router.transitionTo('/', res))
 
 		this.router.linkDefaults()
