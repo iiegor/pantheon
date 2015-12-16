@@ -5,7 +5,7 @@
   "bin": {
     "birdy": "./bin/birdy"
   },
-  "main": "app.js",
+  "main": "server.js",
   "scripts": {
     "start": "node bin/birdy",
     "deps": "npm install && bower install"

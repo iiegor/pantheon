@@ -51,12 +51,12 @@ app.get('/strings/:lang?', i18n.stringsRoute('en_US'))
 require('babel/register'), new (require('./app/birdy'))(app)
 
 require('http').createServer(app).listen(process.env.BIRDY_PORT, function() {
-	console.log('Birdy HTTP server is listening to %d (port) in %s (mode)!'.green, process.env.BIRDY_PORT, process.env.BIRDY_ENV);
+	console.log('Birdy HTTP server is listening to %d (port) in %s (mode)!'.green, this.address().port, process.env.BIRDY_ENV);
 })
 
 if (process.env.HTTPS_ENABLED) require('https').createServer({
 	key: process.env.HTTPS_KEY,
 	cert: process.env.HTTPS_CERT
 }, app).listen(process.env.HTTPS_PORT, function() {
-	console.log('Birdy HTTPS server is listening to %d (port) in %s (mode) with https enabled!'.green, process.env.HTTPS_PORT, process.env.BIRDY_ENV)
+	console.log('Birdy HTTPS server is listening to %d (port) in %s (mode) with https enabled!'.green, this.address().port, process.env.BIRDY_ENV)
 })
