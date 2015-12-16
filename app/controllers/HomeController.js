@@ -17,10 +17,6 @@ class HomeController extends Controller {
     res.render('isomorphic.html', IsomorphicComponent)
   }
 
-  about(req, res) {
-    res.render('about.html')
-  }
-
 }
 
 export default HomeController

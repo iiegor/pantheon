@@ -1,8 +1,0 @@
-{% extends "layouts/application.html" %}
-{% set page = "about" %}
-
-{% block title %}About{% endblock %}
-
-{% block yield %}
-  <my-element head="{{ gettext("h1_welcome") }} home#about" text="{{ gettext("p_welcome") }} app/views/about.html"></my-element>
-{% endblock %}

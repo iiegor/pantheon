@@ -8,7 +8,8 @@ var habitat    = require('habitat'),
     path       = require('path'),
     fs         = require('fs'),
     i18n       = require('webmaker-i18n'),
-    bodyParser = require('body-parser')
+    bodyParser = require('body-parser'),
+    compression   = require('compression')
 
 // Prepare
 habitat.load()
@@ -19,11 +20,8 @@ var app         = express(),
     nunjucksEnv = new nunjucks.Environment(new nunjucks.FileSystemLoader(path.join(__dirname, '/app/views'), env.get('TEMPLATES_CACHE')))
 
 // Setup the application
-if ('prod' == env.get('ENV')) app.disable('verbose errors')
-
 app.use(bodyParser.urlencoded({	extended: true	}))
 app.use(bodyParser.json())
-app.use(express.static(path.resolve(__dirname, 'public', 'builds')))
 app.use(express.static(path.resolve(__dirname, 'public')))
 app.use(i18n.middleware({
   supported_languages: env.get('SUPPORTED_LANGS'),
@@ -32,8 +30,14 @@ app.use(i18n.middleware({
   translation_directory: path.resolve(__dirname, 'locales')
 }))
 
+if ('prod' == env.get('ENV')) {
+  app.disable('verbose errors')
+  app.use(compression())
+}
+
+app.disable('x-powered-by')
+
 nunjucksEnv.express(app)
-nunjucksEnv.addGlobal('BUILD', require('./.build.json').version)
 nunjucksEnv.addFilter('instantiate', function(input) {
   var tmpl = new nunjucks.Template(input)
 

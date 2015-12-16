@@ -4,5 +4,6 @@
 {% block title %}Welcome to birdy!{% endblock %}
 
 {% block yield %}
-  <my-element head="{{ gettext("h1_welcome") }} home#index" text="{{ gettext("p_welcome") }} app/views/home.html"></my-element>
+  <h1>{{ gettext("h1_welcome") }} home#index</h1>
+  <p>{{ gettext("p_welcome") }} app/views/home.html</p>
 {% endblock %}
