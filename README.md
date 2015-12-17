@@ -2,17 +2,16 @@
 Make fly your web applications with birdy, an easy way to start developing node.js websites with all the newest technologies.
 
 ## Setup
-Clone the git running ``git clone <repository-url>``, go to the folder, run ``npm run deps`` and finally do ``cp .env-dist .env``
-
-## Run
-**Note:** You will need to have gulp globally installed, ``npm install --global gulp``
-
-First build assets, elements and other things by running:
+Clone the git running ``git clone <repository-url>``, go to the folder and run:
 ```sh
-gulp build [--dev] [--build] [--clean]
+$ npm install
+$ cp .env-dist .env
 ```
 
-Then you are ready to start the server by running: ``npm run start``
+Finally, you will need to configure your .env file according to your preferences.
+
+## Run
+Simply run: ``$ npm run start``
 
 ## CLI
 In order to speed up and facilitate the creation of controllers, views and other components, you can use birdy-cli (https://github.com/iiegor/birdy-cli).
