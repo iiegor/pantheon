@@ -20,8 +20,7 @@ class HomeComponent extends React.Component {
 
 export default {
   js: {
-    head: [global.services['provider'].provide('console.log("Head javascript");', 'js')],
-    body: [global.services['provider'].provide('console.log("Body javascript");', 'js')]
+    head: [global.services['provider'].provideSource('js/home.js', 'js')]
   },
   css: [global.services['provider'].provide(StyleSheet.render(), 'css')],
   output: ReactDOM.renderToStaticMarkup(<HomeComponent />)

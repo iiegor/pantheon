@@ -4,6 +4,7 @@ node_modules
 npm-debug.log
 .env
 .tmp
+.cache
 .build.json
 public/bower_components/*
 public/builds/*
