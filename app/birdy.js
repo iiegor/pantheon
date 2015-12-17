@@ -20,6 +20,17 @@ class Birdy {
 		this._registerRoutes()
 	}
 
+	import(name) {
+		if (!this.controllers[name]) {
+			var controllerName = name.charAt(0).toUpperCase() + name.slice(1)
+			var controller = require(path.resolve(this._controllersDir, controllerName.concat('Controller.js')))
+
+			this.controllers[name] = new controller(this)
+		}
+
+		return this.controllers[name]
+	}
+
 	_registerRoutes() {
 		this.router.link('/', this.import('home').index)
 		this.router.link('/transition', (req, res) => this.router.transitionTo('/', res))
@@ -36,17 +47,6 @@ class Birdy {
 
       this.services[serviceName.toLowerCase().replace('service', '')] = new service()
     })
-	}
-
-	import(name) {
-		if (!this.controllers[name]) {
-			var controllerName = name.charAt(0).toUpperCase() + name.slice(1)
-			var controller = require(path.resolve(this._controllersDir, controllerName.concat('Controller.js')))
-
-			this.controllers[name] = new controller(this)
-		}
-
-		return this.controllers[name]
 	}
 	
 }

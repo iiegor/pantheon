@@ -1,4 +1,6 @@
 import { sign } from '../../lib/signer'
+import { readFileSync } from 'fs'
+import { join as joinPath } from 'path'
 
 class ProviderService {
 
