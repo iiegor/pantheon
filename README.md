@@ -1,6 +1,14 @@
 # birdy [![Build Status](https://travis-ci.org/iiegor/birdy.svg)](https://travis-ci.org/iiegor/birdy) ![](https://david-dm.org/iiegor/birdy.svg)
 Make fly your web applications with birdy, an easy way to start developing node.js websites with all the newest technologies.
 
+## Features
+- React support
+- Server-side rendering
+- CSS encapsulation
+- Easily extensible
+- Build process on the fly
+and ... *fast?*
+
 ## Setup
 Clone the git running ``git clone <repository-url>``, go to the folder and run:
 ```sh
