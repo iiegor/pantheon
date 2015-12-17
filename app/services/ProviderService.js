@@ -2,6 +2,8 @@ import { sign } from '../../lib/signer'
 import { readFileSync } from 'fs'
 import { join as joinPath } from 'path'
 
+let cache = {}
+
 class ProviderService {
 
   constructor() {
@@ -12,7 +14,7 @@ class ProviderService {
   provide(source, type) {
     let fileURI = `${this._uri}/${this._uid}.${type}`
 
-    global.birdy.router.link(fileURI, (req, res) => {
+    global.router.link(fileURI, (req, res) => {
       if (type === 'css') {
         req.accepts(type)
         res.header('Content-Type', 'text/css')

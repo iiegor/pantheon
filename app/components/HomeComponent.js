@@ -20,9 +20,9 @@ class HomeComponent extends React.Component {
 
 export default {
   js: {
-    head: [global.birdy.services['provider'].provide('console.log("Head javascript");', 'js')],
-    body: [global.birdy.services['provider'].provide('console.log("Body javascript");', 'js')]
+    head: [global.services['provider'].provide('console.log("Head javascript");', 'js')],
+    body: [global.services['provider'].provide('console.log("Body javascript");', 'js')]
   },
-  css: [global.birdy.services['provider'].provide(StyleSheet.render(), 'css')],
+  css: [global.services['provider'].provide(StyleSheet.render(), 'css')],
   output: ReactDOM.renderToStaticMarkup(<HomeComponent />)
 }

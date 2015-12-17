@@ -5,11 +5,9 @@ import router from './router'
 class Birdy {
 
 	constructor(app) {
-		global.birdy = this
-
-		this.router = new router(app, this)
+		this.router = global.router = new router(app, this)
 		this.controllers = []
-		this.services = []
+		this.services = global.services = []
 
 		// Set components dir
 		this._controllersDir = path.join(__dirname, 'controllers')
