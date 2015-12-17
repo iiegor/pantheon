@@ -7,8 +7,7 @@
   },
   "main": "server.js",
   "scripts": {
-    "start": "node bin/birdy",
-    "deps": "npm install && bower install"
+    "start": "node bin/birdy"
   },
   "repository": {
     "type": "git",
