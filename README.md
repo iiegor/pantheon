@@ -7,6 +7,7 @@ Make fly your web applications with birdy, an easy way to start developing node.
 - CSS encapsulation
 - Easily extensible
 - Build process on the fly
+
 and ... *fast?*
 
 ## Setup
