@@ -14,7 +14,7 @@ and ... *fast?*
 Clone the git running ``git clone <repository-url>``, go to the folder and run:
 ```sh
 $ npm install
-$ cp .env-dist .env
+$ cp .env.example .env
 ```
 
 Finally, you will need to configure your .env file according to your preferences.
