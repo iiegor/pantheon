@@ -25,6 +25,7 @@
     "react": "^0.14.3",
     "react-dom": "^0.14.3",
     "stilr": "^1.2.1",
+    "uglify-js": "^2.6.1",
     "webmaker-i18n": "^0.3.24",
     "webmaker-locale-mapping": "latest"
   },

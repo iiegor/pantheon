@@ -1,6 +1,7 @@
 import { sign } from '../../lib/signer'
 import { readFileSync, writeFile, statSync } from 'fs'
 import { join as joinPath } from 'path'
+import { minify } from 'uglify-js'
 
 class ProviderService {
 
@@ -41,7 +42,7 @@ class ProviderService {
     global.router.link(fileURI, (req, res) => {      
       res.header('Cache-Control', `public, max-age=${this.fileMaxCacheAge}`)
 
-      res.end(sign(record))//serve signed content
+      res.end(record)//serve signed content
     })
 
     return fileURI
@@ -62,7 +63,7 @@ class ProviderService {
   _cache(path, content) {
     let record = Object.create(null)
     this._data[path] = record
-    this._data[path].data = content
+    this._data[path].data = sign(minify(content, { fromString: true }).code)
 
     this._persistCache()
 
