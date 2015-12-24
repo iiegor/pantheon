@@ -2,10 +2,6 @@
 <html itemtype="http://schema.org/WebPage" lang="{{ localeInfo.lang }}">
 <head>
 	<meta charset="utf-8">
-	{% for resource in js.head %}
-	<script src="{{ resource }}" crossorigin="anonymous"></script>
-	{% endfor %}
-
 	<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1">
 
 	<title>{% block title %}{% endblock %}</title>
@@ -34,8 +30,8 @@
 		{% block yield %}{% endblock %}
 	</main>
 
-	{% for resource in js.body %}
-	<script src="{{ resource }}" crossorigin="anonymous"></script>
+	{% for resource in js %}
+	<script type="text/javascript" src="{{ resource }}" crossorigin="anonymous"></script>
 	{% endfor %}
 </body>
 </html>

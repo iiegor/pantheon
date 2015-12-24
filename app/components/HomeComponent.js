@@ -1,7 +1,7 @@
 import React from 'react'
-import ReactDOM from 'react-dom/server'
 import Style from '../resources/css/home.css'
 
+@provide(['css/home.css', 'js/home.js'])
 class HomeComponent extends React.Component {
 
   render() {
@@ -12,10 +12,4 @@ class HomeComponent extends React.Component {
 
 }
 
-export default {
-  js: {
-    head: [global.services['provider'].provideSource('js/home.js')]
-  },
-  css: [global.services['provider'].provideSource('css/home.css')],
-  output: ReactDOM.renderToStaticMarkup(<HomeComponent />)
-}
+export default HomeComponent

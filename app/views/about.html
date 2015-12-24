@@ -1,0 +1,9 @@
+{% extends "layouts/application.html" %}
+{% set page = "about" %}
+
+{% block title %}About{% endblock %}
+
+{% block yield %}
+  <h1>{{ gettext("h1_welcome") }} home#about</h1>
+  <p class="{{ style.highlight }}">{{ gettext("p_welcome") }} app/views/about.html</p>
+{% endblock %}

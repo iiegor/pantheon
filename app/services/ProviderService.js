@@ -5,6 +5,9 @@ import path from 'path'
 import { minify } from 'uglify-js'
 import csswring from 'csswring'
 
+import React from 'react'
+import ReactDOM from 'react-dom/server'
+
 class ProviderService {
 
   constructor() {
@@ -13,6 +16,7 @@ class ProviderService {
     this.cacheFilePath = path.join(__dirname, '..', '..', '.cache')
 
     this.setupRequireHooks()
+    this.setupGlobals()
 
     if (!process.env.RESET_CACHE) {
       this._data = this.loadCacheSync(this.cacheFilePath)
@@ -44,8 +48,6 @@ class ProviderService {
     let record = this._has(filepath, 'data') ? this._data[filepath] : this._cache(filepath)
 
     global.router.link(record.meta.uri, (req, res) => {
-      console.log(`Serving ${record.meta.uri}`)
-
       if (record.meta.type === '.css') {
         req.accepts('css')
         res.header('Content-Type', 'text/css')
@@ -82,6 +84,41 @@ class ProviderService {
         this._cache(filepath, css, true)
       }
     })
+  }
+
+  setupGlobals() {
+    global.provide = (arr) => {
+      let js = []
+      let css = []
+
+      arr.forEach((filepath) => {
+        let type = path.extname(filepath)
+        let resource = this.provideSource(filepath)
+
+        if (type === '.css') {
+          css.push(resource)
+        } else if (type === '.js') {
+          js.push(resource)
+        }
+      })
+
+      return function(Component=null, Style=null) {
+        let res = {
+          css: css,
+          js: js
+        }
+
+        if (Component !== null) {
+          res.output = ReactDOM.renderToStaticMarkup(<Component />)
+        }
+
+        if (Style !== null) {
+          res.style = Style
+        }
+
+        return res
+      }
+    }
   }
 
   _cache(filepath, content=null, isRelative=false) {
