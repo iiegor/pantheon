@@ -14,7 +14,7 @@ class Router {
   link(path, controller) {
     if (!controller) return
 
-    let method = ['get']
+    let method = 'get'
 
     if (path.constructor === Array) {
       method = path
