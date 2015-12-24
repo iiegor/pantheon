@@ -1,3 +1,8 @@
+.base {
+  margin: 18px;
+}
+
 .highlight {
+  composes: base;
   color: red;
 }
