@@ -32,7 +32,7 @@ class Birdy {
 	_registerRoutes() {
 		this.router.link('/', this.import('home').index)
 		this.router.link('/transition', (req, res) => this.router.transitionTo('/', res))
-
+		
 		this.router.linkDefaults()
 	}
 

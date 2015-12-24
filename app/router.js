@@ -14,8 +14,16 @@ class Router {
   link(path, controller) {
     if (!controller) return
 
+    let method = ['get']
+
+    if (path.constructor === Array) {
+      method = path
+      path = controller
+      controller = arguments[2]
+    }
+
 		// Route and bind the controller
-    this.app.get(path, controller.bind(this.birdy))
+    this.app[method](path, controller.bind(this.birdy))
   }
 
   linkDefaults() {
