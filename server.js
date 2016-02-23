@@ -2,14 +2,14 @@ var chalk = require('chalk')
 console.log(chalk.gray('Please wait while packages are loaded...'))
 
 // Packages
-var dotenv    = require('dotenv'),
-    express    = require('express'),
-    nunjucks   = require('nunjucks'),
-    path       = require('path'),
-    fs         = require('fs'),
-    i18n       = require('webmaker-i18n'),
-    bodyParser = require('body-parser'),
-    compression   = require('compression')
+var dotenv      = require('dotenv'),
+    express     = require('express'),
+    nunjucks    = require('nunjucks'),
+    path        = require('path'),
+    fs          = require('fs'),
+    i18n        = require('webmaker-i18n'),
+    bodyParser  = require('body-parser'),
+    compression = require('compression')
 
 // Prepare
 dotenv.load()

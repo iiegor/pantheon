@@ -1,7 +1,7 @@
 import Controller from '../controller'
 
-let HomeComponent = require('../components/HomeComponent')
-let AboutComponent = require('../components/AboutComponent')
+const HomeComponent = require('../components/HomeComponent')
+const AboutComponent = require('../components/AboutComponent')
 
 class HomeController extends Controller {
 
