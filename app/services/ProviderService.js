@@ -1,5 +1,5 @@
 import { sign } from '../../lib/signer'
-import { readFileSync, writeFile, statSync } from 'fs'
+import { readFileSync, writeFile } from 'fs'
 import path from 'path'
 
 import { minify } from 'uglify-js'
@@ -45,7 +45,7 @@ class ProviderService {
   provideSource(filepath) {
     filepath = path.normalize(filepath)
 
-    let record = this._has(filepath, 'data') ? this._data[filepath] : this._cache(filepath)
+    const record = this._has(filepath, 'data') ? this._data[filepath] : this._cache(filepath)
 
     global.router.link(record.meta.uri, (req, res) => {
       if (record.meta.type === '.css') {
@@ -54,7 +54,7 @@ class ProviderService {
       }
       res.header('Cache-Control', `public, max-age=${this.fileMaxCacheAge}`)
 
-      res.end(record.data)//serve signed content
+      res.end(record.data) // serve signed content
     })
 
     return record.meta.uri
@@ -67,7 +67,9 @@ class ProviderService {
 
     try {
       this._data = JSON.parse(readFileSync(cacheFilePath))
-    } catch(err) { }
+    } catch (err) {
+      console.log('Failed to load cache file!')
+    }
 
     return this._data
   }
@@ -82,7 +84,7 @@ class ProviderService {
       generateScopedName: process.env.CSS_SCOPE_NAME || '_[hash:base64:5]',
       processCss: (css, filepath) => {
         this._cache(filepath, css, true)
-      }
+      },
     })
   }
 
@@ -102,10 +104,10 @@ class ProviderService {
         }
       })
 
-      return function(Component=null, Style=null) {
+      return function render(Component = null, Style = null) {
         let res = {
-          css: css,
-          js: js
+          css,
+          js,
         }
 
         if (Component !== null) {
@@ -121,24 +123,24 @@ class ProviderService {
     }
   }
 
-  _cache(filepath, content=null, isRelative=false) {
-    let fileEXT = path.extname(filepath)
-    let fileURI = `${this._uri}/${this._uid}${fileEXT}`
+  _cache(filepath, content = null, isRelative = false) {
+    const fileEXT = path.extname(filepath)
+    const fileURI = `${this._uri}/${this._uid}${fileEXT}`
 
     if (isRelative) {
-      filepath = path.relative( path.join(__dirname, '..', 'resources'), filepath )
+      filepath = path.relative(path.join(__dirname, '..', 'resources'), filepath)
     } else {
       filepath = path.normalize(filepath)
     }
 
-    let record = Object.create(null)
+    const record = Object.create(null)
     this._data[filepath] = record
     this._data[filepath].meta = Object.create(null)
     this._data[filepath].meta.uri = fileURI
     this._data[filepath].meta.type = fileEXT
 
     if (content === null) {
-      content = readFileSync( path.join(__dirname, '..', 'resources', filepath), 'utf8' )
+      content = readFileSync(path.join(__dirname, '..', 'resources', filepath), 'utf8')
     }
 
     if (fileEXT === '.js') {
@@ -166,13 +168,13 @@ class ProviderService {
   }
 
   get _uid() {
-    var S4 = function() {
-      return (Math.floor(((1+Math.random())*0x10000))).toString(16).substring(1)
+    const s4 = function s4() {
+      return (Math.floor(((1 + Math.random()) * 0x10000))).toString(16).substring(1)
     }
 
-    return S4() + S4() + '-' +  S4()
+    return `${s4() + s4()}-${s4()}`
   }
-  
+
 }
 
 export default ProviderService
