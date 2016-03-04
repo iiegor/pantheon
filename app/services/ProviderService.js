@@ -3,7 +3,8 @@ import { readFileSync, writeFile } from 'fs'
 import path from 'path'
 
 import { minify } from 'uglify-js'
-import csswring from 'csswring'
+import postcssWring from 'csswring'
+import chalk from 'chalk'
 
 import React from 'react'
 import ReactDOM from 'react-dom/server'
@@ -18,14 +19,14 @@ class ProviderService {
     this.setupRequireHooks()
     this.setupGlobals()
 
-    if (!process.env.ASSET_CACHE) {
+    if (process.env.ASSET_CACHE) {
       this._data = this.loadCacheSync(this.cacheFilePath)
     } else {
       this._data = Object.create(null)
     }
   }
 
-  /*
+  /* Probably, we will need this in a future...
   provide(source, type) {
     let fileURI = `${this._uri}/${this._uid}.${type}`
 
@@ -40,7 +41,8 @@ class ProviderService {
     })
 
     return fileURI
-  }*/
+  }
+  */
 
   provideSource(filepath) {
     filepath = path.normalize(filepath)
@@ -68,7 +70,7 @@ class ProviderService {
     try {
       this._data = JSON.parse(readFileSync(cacheFilePath))
     } catch (err) {
-      console.log('Failed to load cache file!')
+      console.log(chalk.red('Failed to load the cache file :('))
     }
 
     return this._data
@@ -77,9 +79,10 @@ class ProviderService {
   setupRequireHooks() {
     // CSS Modules
     require('css-modules-require-hook')({
+      append: [],
       prepend: [
         // CSS Minification plugin
-        csswring(),
+        postcssWring(),
       ],
       generateScopedName: process.env.CSS_SCOPE_NAME || '_[hash:base64:5]',
       processCss: (css, filepath) => {
@@ -111,7 +114,7 @@ class ProviderService {
         }
 
         if (Component !== null) {
-          res.output = ReactDOM.renderToStaticMarkup(<Component />)
+          res.output = ReactDOM[Component.renderMethod || process.env.RENDER_METHOD || 'renderToStaticMarkup'](<Component />)
         }
 
         if (Style !== null) {

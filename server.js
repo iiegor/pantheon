@@ -2,21 +2,21 @@ var chalk = require('chalk')
 console.log(chalk.gray('Please wait while packages are loaded...'))
 
 // Packages
-var dotenv      = require('dotenv'),
-    express     = require('express'),
-    nunjucks    = require('nunjucks'),
-    path        = require('path'),
-    fs          = require('fs'),
-    i18n        = require('webmaker-i18n'),
-    bodyParser  = require('body-parser'),
-    compression = require('compression')
+var dotenv = require('dotenv'),
+  express = require('express'),
+  nunjucks = require('nunjucks'),
+  path = require('path'),
+  fs = require('fs'),
+  i18n = require('webmaker-i18n'),
+  bodyParser = require('body-parser'),
+  compression = require('compression')
 
 // Prepare
 dotenv.load()
 
 // Instantiate
-var app         = express(),
-    nunjucksEnv = new nunjucks.Environment(new nunjucks.FileSystemLoader(path.join(__dirname, '/app/views'), process.env.VIEW_CACHE))
+var app = express(),
+  nunjucksEnv = new nunjucks.Environment(new nunjucks.FileSystemLoader(path.join(__dirname, '/app/views'), process.env.VIEW_CACHE))
 
 // Setup the application
 app.use(bodyParser.urlencoded({	extended: true	}))

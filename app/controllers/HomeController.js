@@ -1,9 +1,7 @@
-import Controller from '../controller'
-
 const HomeComponent = require('../components/HomeComponent')
 const AboutComponent = require('../components/AboutComponent')
 
-class HomeController extends Controller {
+class HomeController {
 
 	index(req, res) {
 		/**
@@ -17,7 +15,6 @@ class HomeController extends Controller {
   about(req, res) {
     res.render('about.html', AboutComponent)
   }
-
 }
 
 export default HomeController
