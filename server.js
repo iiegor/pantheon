@@ -16,7 +16,7 @@ dotenv.load()
 
 // Instantiate
 var app         = express(),
-    nunjucksEnv = new nunjucks.Environment(new nunjucks.FileSystemLoader(path.join(__dirname, '/app/views'), process.env.TEMPLATES_CACHE))
+    nunjucksEnv = new nunjucks.Environment(new nunjucks.FileSystemLoader(path.join(__dirname, '/app/views'), process.env.VIEW_CACHE))
 
 // Setup the application
 app.use(bodyParser.urlencoded({	extended: true	}))

@@ -18,7 +18,7 @@ class ProviderService {
     this.setupRequireHooks()
     this.setupGlobals()
 
-    if (!process.env.RESET_CACHE) {
+    if (!process.env.ASSET_CACHE) {
       this._data = this.loadCacheSync(this.cacheFilePath)
     } else {
       this._data = Object.create(null)
@@ -164,7 +164,7 @@ class ProviderService {
   }
 
   get _uri() {
-    return `${process.env.ASSETS_URI}/v${this.version}`
+    return `${process.env.ASSET_URI}/v${this.version}`
   }
 
   get _uid() {
