@@ -14,7 +14,7 @@ import ReactDOM from 'react-dom/server'
 class ProviderService {
 
   constructor() {
-    this.version = 1
+    this.version = process.env.ASSET_VERSION || 1
     this.fileMaxCacheAge = 31536e3
     this.cacheFilePath = path.join(__dirname, '..', '..', '.cache')
 
