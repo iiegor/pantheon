@@ -23,9 +23,10 @@ body {
 
 .window {
   background-color: #FFF;
-  width: 870px;
+  width: 670px;
   border-radius: 3px;
   -webkit-box-flex: 0;
+  margin: 150px auto;
   flex: none;
   z-index: 2;
   overflow: hidden;
@@ -59,8 +60,8 @@ body {
   background-color: #f6f8f8;
 }
 
-@media screen and (max-width: 880px), screen and (max-height: 720px) {
+@media screen and (min-width: 880px), screen and (min-height: 720px) {
   .window {
-    margin: 150px auto;
+    width: 870px;
   }
 }
