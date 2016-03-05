@@ -1,3 +1,8 @@
+/**
+ * @providesModule HomeComponent
+ * @permanent
+ */
+
 .base {
   margin: 18px;
 }

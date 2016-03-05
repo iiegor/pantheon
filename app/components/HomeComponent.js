@@ -1,16 +1,17 @@
 import React from 'react'
+import WindowElement from '../elements/WindowElement'
+
+import '../resources/css/common.css'
 import Style from '../resources/css/home.css'
 
-import Window from '../elements/WindowElement'
-
-@provide(['css/home.css', 'js/home.js'])
+@provide(['css/common.css', 'css/home.css', 'js/home.js'])
 class HomeComponent extends React.Component {
 
   static renderMethod = 'renderToStaticMarkup';
 
   render() {
     return (
-      <Window title="A title">Hello from <span className={Style.highlight}>{this.constructor.name}!</span></Window>
+      <WindowElement title="A title" footer="Footer content">Hello from <span className={Style.highlight}>{this.constructor.name}!</span></WindowElement>
     );
   }
 }

@@ -1,0 +1,66 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+[data-reactroot] {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+[data-reactroot]::after {
+  position: absolute;
+  z-index: -1;
+  background-color: #2196F3;
+  width: 100%;
+  height: 222px;
+  content: '';
+  top: 0;
+  left: 0;
+}
+
+.window {
+  background-color: #FFF;
+  width: 870px;
+  border-radius: 3px;
+  -webkit-box-flex: 0;
+  flex: none;
+  z-index: 2;
+  overflow: hidden;
+  box-shadow: 0 1px 1px 0 rgba(0,0,0,.06),0 2px 5px 0 rgba(0,0,0,.2);
+  animation: window-slide .2s cubic-bezier(.1,.82,.25,1);
+}
+
+@keyframes window-slide {
+  from {
+    -webkit-transform: translateY(-100%);
+    transform: translateY(-100%)
+  }
+  
+  to {
+    -webkit-transform: translateY(0);
+    transform: translateY(0)
+  }
+}
+
+
+.windowContent,
+.windowFooter {
+  padding: 35px 82px;
+}
+
+.windowContent {
+  background-color: #fff;
+}
+
+.windowFooter {
+  background-color: #f6f8f8;
+}
+
+@media screen and (max-width: 880px), screen and (max-height: 720px) {
+  .window {
+    margin: 150px auto;
+  }
+}

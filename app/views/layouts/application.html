@@ -19,43 +19,15 @@
 	<meta property="og:title" content="Birdy" />
 	<meta property="og:description" content="My Birdy website description." />
 	<!-- /sharing -->
-	
-	<style type="text/css">
-	html,
-	body {
-	  margin: 0;
-	  padding: 0;
-	}
 
-	#app {
-	  position: absolute;
-	  width: 100%;
-	  height: 100%;
-	}
-
-	#app::after {
-	  position: absolute;
-    z-index: -1;
-    background-color: #2196F3;
-    width: 100%;
-    height: 222px;
-    content: '';
-    top: 0;
-    left: 0;
-	}
-	</style>
-	{% for resource in css %}
-	<link type="text/css" rel="stylesheet" href="{{ resource }}" crossorigin="anonymous" />
-	{% endfor %}
+	<link type="text/css" rel="stylesheet" href="{{ css }}" crossorigin="anonymous" />
 	{% block styles %}{% endblock %}
 </head>
 <body class="{% if page %}{{ page }}{% endif %}">
-	<div id="app">
+	<div id="app" data-reactroot>
 		{% block yield %}{% endblock %}
 	</div>
 
-	{% for resource in js %}
-	<script type="text/javascript" src="{{ resource }}" crossorigin="anonymous"></script>
-	{% endfor %}
+	<script type="text/javascript" src="{{ js }}" crossorigin="anonymous"></script>
 </body>
 </html>
