@@ -9,6 +9,7 @@ var ENV = {
     'with-hashed-selectors': false,
     'with-asset-cache': false,
     'with-view-cache': false,
+    'with-view-watch': true,
     'with-https': false
   },
 
@@ -22,6 +23,8 @@ var ENV = {
 
 if (ENV.environment === 'production') {
   ENV.FEATURES['with-hashed-selectors'] = true
+  ENV.FEATURES['with-view-cache'] = true
+  ENV.FEATURES['with-view-watch'] = false
 }
 
 module.exports = ENV

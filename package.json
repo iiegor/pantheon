@@ -1,7 +1,7 @@
 {
   "name": "birdy",
   "version": "0.0.1",
-  "description": "Web server",
+  "description": "Next-generation web server",
   "main": "server.js",
   "bin": {
     "birdy": "./bin/birdy"

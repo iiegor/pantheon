@@ -13,7 +13,7 @@ var express = require('express'),
 // Instantiate
 var app = express(),
   config = require('./config'),
-  nunjucksEnv = new nunjucks.Environment(new nunjucks.FileSystemLoader(path.join(__dirname, '/app/views'), config.FEATURES['with-view-cache']))
+  nunjucksEnv = new nunjucks.Environment(new nunjucks.FileSystemLoader(path.join(__dirname, '/app/views'), {watch: config.FEATURES['with-view-watch'], noCache: !config.FEATURES['with-view-cache']}))
 
 // Setup the application
 app.use(bodyParser.urlencoded({	extended: true	}))
