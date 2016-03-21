@@ -1,0 +1,24 @@
+{% extends "layouts/application.html" %}
+{% set page = "home" %}
+
+{% block title %}Welcome to birdy!{% endblock %}
+
+{% block yield %}
+  <div class="{{ css('Navbar') }}" role="navigation">
+    <div class="{{ css('Navbar-inner') }}">
+      <nav class="{{ css('Navbar-nav') }}">
+        <ul class="{{ css('Navbar-nav-ul') }}">
+          <li class="{{ css('Navbar-nav-li', 'Navbar-nav-li--active') }}"><a class="{{ css('Navbar-nav-link') }}" href="/">News</a></li>
+          <li class="{{ css('Navbar-nav-li') }}"><a class="{{ css('Navbar-nav-link') }}" href="/top">Top</a></li>
+          <li class="{{ css('Navbar-nav-li') }}"><a class="{{ css('Navbar-nav-link') }}" href="/submit">Submit</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+
+  <div class="{{ css('Container') }}">
+    <div class="{{ css('Container-inner') }}">
+      You are in the / page ;)
+    </div>
+  </div>
+{% endblock %}

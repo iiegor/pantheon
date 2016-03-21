@@ -1,28 +1,25 @@
 {
-  "name": "birdy-server",
-  "version": "0.3.0",
+  "name": "birdy",
+  "version": "0.0.1",
   "description": "Web server",
+  "main": "server.js",
   "bin": {
     "birdy": "./bin/birdy"
-  },
-  "main": "server.js",
-  "scripts": {
-    "start": "node bin/birdy",
-    "test": "eslint app"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/iiegor/birdy"
   },
   "author": "Iegor Azuaga <dextrackmedia@gmail.com>",
+  "license": "MIT",
   "dependencies": {
     "babel": "^5.8.23",
     "body-parser": "^1.14.0",
     "chalk": "^1.1.1",
+    "classnames": "^2.2.3",
     "compression": "^1.6.0",
     "css-modules-require-hook": "^4.0.0",
     "csswring": "^4.2.2",
-    "dotenv": "^2.0.0",
     "express": "^4.9.0",
     "loader-utils": "^0.2.12",
     "nunjucks": "^1.0.7",
@@ -37,15 +34,8 @@
     "webmaker-i18n": "^0.3.28",
     "webmaker-locale-mapping": "latest"
   },
-  "devDependencies": {
-    "babel-eslint": "^5.0.0",
-    "eslint": "^2.4.0",
-    "eslint-config-airbnb": "^6.1.0",
-    "eslint-plugin-react": "^4.2.3"
+  "scripts": {
+    "start": "node bin/birdy"
   },
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/iiegor/birdy/issues"
-  },
-  "homepage": "https://github.com/iiegor/birdy"
+  "private": true
 }

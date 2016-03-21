@@ -2,8 +2,7 @@ var chalk = require('chalk')
 console.log(chalk.gray('Please wait while packages are loaded...'))
 
 // Packages
-var dotenv = require('dotenv'),
-  express = require('express'),
+var express = require('express'),
   nunjucks = require('nunjucks'),
   path = require('path'),
   fs = require('fs'),
@@ -11,25 +10,23 @@ var dotenv = require('dotenv'),
   bodyParser = require('body-parser'),
   compression = require('compression')
 
-// Prepare
-dotenv.load()
-
 // Instantiate
 var app = express(),
-  nunjucksEnv = new nunjucks.Environment(new nunjucks.FileSystemLoader(path.join(__dirname, '/app/views'), process.env.VIEW_CACHE))
+  config = require('./config'),
+  nunjucksEnv = new nunjucks.Environment(new nunjucks.FileSystemLoader(path.join(__dirname, '/app/views'), config.FEATURES['with-view-cache']))
 
 // Setup the application
 app.use(bodyParser.urlencoded({	extended: true	}))
 app.use(bodyParser.json())
 app.use(express.static(path.resolve(__dirname, 'public')))
 app.use(i18n.middleware({
-  supported_languages: process.env.SUPPORTED_LANGS,
+  supported_languages: '*',
   default_lang: 'en-US',
   mappings: require('webmaker-locale-mapping'),
   translation_directory: path.resolve(__dirname, 'locales')
 }))
 
-if ('prod' == process.env.BIRDY_ENV) {
+if ('production' == config.environment) {
   app.disable('verbose errors')
   app.use(compression())
 }
@@ -50,13 +47,13 @@ app.get('/strings/:lang?', i18n.stringsRoute('en_US'))
 // Boot the application
 require('babel/register'), new (require('./app/birdy'))(app)
 
-require('http').createServer(app).listen(process.env.BIRDY_PORT, function() {
-	console.log(chalk.green('Birdy HTTP server is listening to %d (port) in %s (mode)!'), this.address().port, process.env.BIRDY_ENV);
+require('http').createServer(app).listen(config.port, function() {
+	console.log(chalk.green('Birdy HTTP server is listening to %d (port) in %s (mode)!'), this.address().port, config.environment);
 })
 
-if (process.env.HTTPS_ENABLED) require('https').createServer({
-	key: process.env.HTTPS_KEY,
-	cert: process.env.HTTPS_CERT
-}, app).listen(process.env.HTTPS_PORT, function() {
-	console.log(chalk.green('Birdy HTTPS server is listening to %d (port) in %s (mode) with https enabled!'), this.address().port, process.env.BIRDY_ENV)
+if (config.FEATURES['with-https']) require('https').createServer({
+	key: config.APP.HTTPS.key,
+	cert: config.APP.HTTPS.cert
+}, app).listen(config.APP.HTTPS.port, function() {
+	console.log(chalk.green('Birdy HTTPS server is listening to %d (port) in %s (mode) with https enabled!'), this.address().port, config.environment)
 })

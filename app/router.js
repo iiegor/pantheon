@@ -1,5 +1,3 @@
-import fs from 'fs'
-
 class Router {
 
 	constructor(app, birdy) {
@@ -7,10 +5,7 @@ class Router {
 
 		this.birdy = birdy
 	}
-
-	/*
-	 * Link the path with the controller
-	 */
+	
   link(path, controller) {
     if (!controller) return
 
@@ -24,6 +19,10 @@ class Router {
 
 		// Route and bind the controller
     this.app[method](path, controller.bind(this.birdy))
+  }
+
+  handlePagelet(pagelet) {
+    this.app.get(pagelet.path, (req, res) => res.render(pagelet.view, pagelet._res))
   }
 
   linkDefaults() {

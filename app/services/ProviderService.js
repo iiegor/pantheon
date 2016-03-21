@@ -1,12 +1,15 @@
 import { sign } from '../../lib/signer'
+import config from '../../config'
 import { readFileSync, writeFile } from 'fs'
 import path from 'path'
 
 import { minify } from 'uglify-js'
 import cssModulesHook from 'css-modules-require-hook'
+import postcss from 'postcss'
 import postcssWring from 'csswring'
 import chalk from 'chalk'
 import loaderUtils from 'loader-utils'
+import cx from 'classnames/bind'
 
 import React from 'react'
 import ReactDOM from 'react-dom/server'
@@ -14,14 +17,13 @@ import ReactDOM from 'react-dom/server'
 class ProviderService {
 
   constructor() {
-    this.version = process.env.ASSET_VERSION || 1
+    this.version = config.APP.ASSETS.version
     this.fileMaxCacheAge = 31536e3
     this.cacheFilePath = path.join(__dirname, '..', '..', '.cache')
 
     this.setupRequireHooks()
-    this.setupGlobals()
 
-    if (process.env.ASSET_CACHE) {
+    if (config.FEATURES['with-asset-cache']) {
       this._data = this.loadCacheSync(this.cacheFilePath)
     } else {
       this._data = Object.create(null)
@@ -32,13 +34,15 @@ class ProviderService {
     let record = this._has(filepaths, 'data') ? this._data[filepaths] : this._cache(filepaths)
     
     // Sign the record data
-    record.data = sign(record.data)
+    if (config.environment !== 'development') {
+      record.data = sign(record.data)
+    }
 
     global.router.link(record.meta.uri, (req, res) => {
-      if (record.meta.type === '.css') {
+      if (record.meta.type === 'css') {
         req.accepts('css')
         res.header('Content-Type', 'text/css; charset=utf-8')
-      } else if (record.meta.type === '.js') {
+      } else if (record.meta.type === 'js') {
         res.header('Content-Type', 'application/x-javascript; charset=utf-8')
       }
       res.header('Cache-Control', `public, max-age=${this.fileMaxCacheAge}`)
@@ -47,23 +51,6 @@ class ProviderService {
     })
 
     return record.meta.uri
-  }
-
-  provideSources(filepaths) {
-    // Filter array items
-    const css = filepaths.filter((value) => {
-      return value.indexOf('.css') !== -1
-    })
-
-    const js = filepaths.filter((value) => {
-      return value.indexOf('.js') !== -1
-    })
-
-    // Provide them
-    return {
-      css: this.provideSource(css.join(',')),
-      js: this.provideSource(js.join(',')),
-    }
   }
 
   loadCacheSync(cacheFilePath) {
@@ -84,40 +71,32 @@ class ProviderService {
     // CSS Modules
     cssModulesHook({
       append: [],
-      prepend: [
+      prepend: [].concat(
         // CSS Minification plugin
-        postcssWring(),
-      ],
-      generateScopedName: process.env.CSS_SCOPE_NAME || '_[hash:base64:5]',
+        config.environment !== 'development' ? [postcssWring()] : []
+      ),
+      generateScopedName: config.FEATURES['with-hashed-selectors'] ? '_[hash:base64:5]' : '[name]_[local]',
       processCss: (css, filepath) => {
         this._cache(filepath, css, true)
       },
     })
   }
 
-  setupGlobals() {
-    /**
-     * The `provide` method returns template data.
-     */
-    global.provide = (arr) => {
-      let {css, js} = this.provideSources(arr)
+  /**
+   * The `provide` method compiles all the assets at boot time
+   * and returns template data about them.
+   */
+  provide(css, js) {
+    let cssMap = Object.create(null)
 
-      return function render(Component = null, Style = null) {
-        let res = {
-          css,
-          js,
-        }
+    // Create a selector map
+    css.forEach((key) => Object.assign(cssMap, require(path.join(__dirname, '..', 'resources', key))))
 
-        if (Component !== null) {
-          res.output = ReactDOM[Component.renderMethod || process.env.RENDER_METHOD || 'renderToStaticMarkup'](<Component />)
-        }
-
-        if (Style !== null) {
-          res.style = Style
-        }
-
-        return res
-      }
+    return {
+      css: cx.bind(cssMap),
+      
+      stylesheets: this.provideSource(css.join(',')),
+      javascripts: this.provideSource(js.join(',')),
     }
   }
 
@@ -137,7 +116,7 @@ class ProviderService {
     const record = Object.create(null)
     this._data[filepath] = record
     this._data[filepath].meta = Object.create(null)
-    this._data[filepath].meta.type = fileEXT
+    this._data[filepath].meta.type = fileEXT.substr(1)
 
     if (content === null) {
       content = ''
@@ -151,11 +130,20 @@ class ProviderService {
       })
     }
 
-    const fileURI = `${this._uri}/${this._hash(content)}${fileEXT}`
+    const fileNAME = filepath.replace(/js\/|css\//g, '').replace('/', '').replace(/\//g, ',')
+    const fileHASH = config.environment !== 'development'
+      ? this._hash(content)
+      : fileNAME
+    const fileURI = config.environment !== 'development'
+      ? this._uri.replace('{type}', record.meta.type).replace('{name}', fileHASH)
+      : this._uri.replace('{type}', record.meta.type).replace('{name}', fileNAME)
+
+    this._data[filepath].meta.hash = fileHASH
+    this._data[filepath].meta.name = fileNAME
     this._data[filepath].meta.uri = fileURI
 
     if (fileEXT === '.js') {
-      this._data[filepath].data = minify(content, { fromString: true }).code
+      this._data[filepath].data = config.environment !== 'development' ? minify(content, { fromString: true }).code : content
     } else {
       this._data[filepath].data = content
     }
@@ -163,6 +151,24 @@ class ProviderService {
     this._persistCache()
 
     return record
+  }
+
+  _buildAssetsMap(resources) {
+    const files = Object.create(null)
+    const resourceMap = Object.create(null)
+
+    resources.forEach((asset, i) => {
+      this.provideSource(asset)
+
+      if (this._has(asset, 'data')) {
+        let file = this._data[asset]
+
+        files[file.meta.hash] = {type: file.meta.type, src: file.meta.uri, crossOrigin: 1}
+        resourceMap[file.meta.name] = file.meta.hash
+      }
+    })
+
+    return {files, resourceMap}
   }
 
   _has(filepath, field) {
@@ -175,27 +181,15 @@ class ProviderService {
   }
 
   _hash(data) {
-    return loaderUtils.getHashDigest(data, '', 'base64', 7)
+    return loaderUtils.getHashDigest(data, 'sha256', 'base64', 11)
   }
 
   /**
    * Returns the base path for assets
    */
   get _uri() {
-    return `${process.env.ASSET_URI}/v${this.version}`
+    return `/_/${config.modulePrefix}/_/${config.APP.ASSETS.path}`
   }
-
-  /**
-   * Returns a random unique id
-   */
-  get _uid() {
-    const s4 = function s4() {
-      return (Math.floor(((1 + Math.random()) * 0x10000))).toString(16).substring(1)
-    }
-
-    return `${s4() + s4()}-${s4()}`
-  }
-
 }
 
 export default ProviderService

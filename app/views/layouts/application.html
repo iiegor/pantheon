@@ -20,14 +20,12 @@
 	<meta property="og:description" content="My Birdy website description." />
 	<!-- /sharing -->
 
-	<link type="text/css" rel="stylesheet" href="{{ css }}" crossorigin="anonymous" />
+	<link type="text/css" rel="stylesheet" href="{{ stylesheets }}" crossorigin="anonymous" />
 	{% block styles %}{% endblock %}
 </head>
 <body class="{% if page %}{{ page }}{% endif %}">
-	<div id="app" data-reactroot>
-		{% block yield %}{% endblock %}
-	</div>
+	<div id="app" data-root>{% block yield %}{% endblock %}</div>
 
-	<script type="text/javascript" src="{{ js }}" crossorigin="anonymous"></script>
+	<script type="text/javascript" src="{{ javascripts }}" crossorigin="anonymous"></script>
 </body>
 </html>

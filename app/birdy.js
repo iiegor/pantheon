@@ -1,5 +1,7 @@
 import fs from 'fs'
 import path from 'path'
+import loaderUtils from 'loader-utils'
+
 import router from './router'
 
 class Birdy {
@@ -7,15 +9,16 @@ class Birdy {
 	constructor(app) {
 		this.router = global.router = new router(app, this)
 		this.controllers = []
-		this.services = global.services = []
+		this.services = []
 
 		// Set components dir
 		this._controllersDir = path.join(__dirname, 'controllers')
+		this._pageletsDir = path.join(__dirname, 'pagelets')
 		this._servicesDir = path.join(__dirname, 'services')
 
 		// Register components
 		this._registerServices()
-		this._registerRoutes()
+		this._registerPagelets()
 	}
 
 	import(name) {
@@ -29,10 +32,26 @@ class Birdy {
 		return this.controllers[name]
 	}
 
-	_registerRoutes() {
-		this.router.link('/', this.import('home').index)
-		this.router.link('/about', this.import('home').about)
-		this.router.link('/transition', (req, res) => this.router.transitionTo('/', res))
+	_registerPagelets() {
+		var pagelets = fs.readdirSync(this._pageletsDir)
+
+		// TODO: Render child pagelets
+		pagelets.forEach(pagelet => {
+			var pageletName = pagelet.slice(0, -3)
+			var pagelet = require(path.resolve(this._pageletsDir, pageletName))
+
+			if (!pagelet.name)
+				pagelet.name = pageletName
+
+			pagelet._id = loaderUtils.getHashDigest(pagelet.name, '', 'base64', 15)
+			pagelet._res = this.services['provider'].provide(pagelet.css, pagelet.js)
+
+			pagelet._res.pagelet = pagelet._id
+
+			this.services['logger'].log(`Pagelet ${pagelet.name} (${pagelet._id}) served.`)
+
+			this.router.handlePagelet(pagelet)
+		})
 		
 		this.router.linkDefaults()
 	}
