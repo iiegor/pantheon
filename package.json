@@ -28,7 +28,7 @@
     "postcss-modules-local-by-default": "^1.0.1",
     "postcss-modules-scope": "^1.0.0",
     "postcss-modules-values": "^1.1.2",
-    "react": "^0.14.7",
+    "react": "^0.14.8",
     "react-dom": "^0.14.8",
     "uglify-js": "^2.6.1",
     "webmaker-i18n": "^0.3.28",
