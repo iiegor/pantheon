@@ -23,7 +23,7 @@
     "express": "^4.9.0",
     "loader-utils": "^0.2.13",
     "nunjucks": "^2.4.1",
-    "postcss": "^5.0.19",
+    "postcss": "^5.0.20",
     "postcss-modules-extract-imports": "^1.0.0",
     "postcss-modules-local-by-default": "^1.0.1",
     "postcss-modules-scope": "^1.0.0",
