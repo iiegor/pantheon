@@ -21,7 +21,7 @@
     "css-modules-require-hook": "^4.0.0",
     "csswring": "^4.2.2",
     "express": "^4.9.0",
-    "loader-utils": "^0.2.13",
+    "loader-utils": "^0.2.15",
     "nunjucks": "^2.4.1",
     "postcss": "^5.0.19",
     "postcss-modules-extract-imports": "^1.0.0",
