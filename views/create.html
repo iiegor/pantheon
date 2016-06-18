@@ -1,0 +1,112 @@
+<% extend 'components/layout' %>
+
+<div class="HeaderOuter"></div>
+<header class="Header">
+  <div class="Header__inner">
+    <a href="/+/promotion" class="Header__breadcrumb">
+      <h1 class="Header__serviceName">Crear promoción</h1>
+    </a>
+
+    <div class="Header__leftWrapper"></div>
+
+    <div class="Header__rightWrapper">
+      <!--<button id="settings" class="Header__settingsButton">
+        <span class="material-icons">settings</span>
+      </button>-->
+
+      <button id="publish" class="Header__publishButton">Publicar</button>
+    </div>
+  </div>
+</header>
+
+<section class="Content">
+  <% if @published : %>
+  <div class="Notice">
+    <div class="Notice__inner">Felicidades! Tu promoción ha sido publicada y es accesible a través del siguiente enlace: <a href="<%- @link %>" class="Notice__link"><%- @link %></a></div>
+  </div>
+  <% end %>
+
+  <div class="SettingsPopout SettingsPopout--closed">
+    <div class="SettingsPopout__inner">
+      No disponible.
+    </div>
+  </div>
+
+  <form method="POST" class="Promotion">
+    <h1 class="Promotion__title">
+      Título
+    </h1>
+
+    <input type="text" class="Promotion__input" required />
+
+    <h1 class="Promotion__subtitle">
+      Imagen <span class="Promotion__subtitleInfo">(opcional)</span>
+    </h1>
+
+    <input type="text" placeholder="" class="Promotion__input" />
+
+    <h1 class="Promotion__subtitle">
+      Usuario <span class="Promotion__subtitleInfo">(nombre del que publica esta promoción)</span>
+    </h1>
+
+    <input type="text" class="Promotion__input" required />
+
+    <h1 class="Promotion__subtitle">
+      Premio
+    </h1>
+
+    <input type="text" placeholder="$" class="Promotion__input Promotion__input--price" required />
+    <select>
+      <option value="0" selected>Tipo de premio</option>
+      <option value="1">Clouds</option>
+      <option value="2">Coins</option>
+      <option value="3">Mueble</option>
+    </select>
+
+    <h1 class="Promotion__subtitle">
+      Pregunta
+    </h1>
+
+    <input type="text" placeholder="Ej: ¿Esto es un ejemplo?" class="Promotion__input" required />
+
+    <h1 class="Promotion__subtitle">
+      Respuesta <span class="Promotion__subtitleInfo">(deberá ser escrita exactamente igual)</span>
+    </h1>
+
+    <input type="text" placeholder="Ej: Si" class="Promotion__input" required />
+  </form>
+
+  <div class="Preview">
+    <h1 class="Preview__subtitle">
+      Previa
+    </h1>
+
+    <div data-outlet>
+      <span class="Preview__advice">Por favor, rellena los campos!</span>
+    </div>
+  </div>
+
+  <footer class="Footer">
+    <div class="Footer__inner">
+      <a href="/">kekocity.tv<span>/+/promotion</span></a>
+
+      <span class="Footer__info"></span>
+    </div>
+  </footer>
+</section>
+
+<script>
+document.getElementById('publish').onclick = function() {
+  document.querySelector('form').submit();
+};
+
+document.getElementById('settings').onclick = function() {
+  var el = document.querySelector('.SettingsPopout');
+
+  if (el.classList.contains('SettingsPopout--closed')) {
+    el.classList.remove('SettingsPopout--closed');
+  } else {
+    el.classList.add('SettingsPopout--closed');
+  }
+};
+</script>

@@ -1,0 +1,21 @@
+{
+  "private": true,
+  "scripts": {
+    "start": "nodemon ./server.js"
+  },
+  "engines": {
+    "node": ">=5.0",
+    "npm": ">=3.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.15.1",
+    "ect": "^0.5.9",
+    "express": "^4.14.0",
+    "react": "^15.1.0",
+    "react-dom": "^15.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.9.2",
+    "webpack": "^1.13.1"
+  }
+}
