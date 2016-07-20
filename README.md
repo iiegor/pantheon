@@ -31,3 +31,11 @@ module.exports = {
   <script src="<%- script %>" nonce="<%- @nonce %>"></script>
 <% end %>
 ```
+
+### Effective asset distribution
+
+While on development all assets will be called following this syntax:
+
+``/_/pantheon/_/b={resourceBundle}/{resourceType}/rs={resourceName}``
+
+On production, the resource name will be replaced by a string concatenation of the ``last modification time`` of the file with the resource name (string is hashed).
