@@ -80,7 +80,7 @@ function provideAsset(fileName, filePath, fileType, bundleName) {
       res.end(fs.readFileSync(filePath, 'utf8'));
     });
   } else {
-    const file = fs.readFileSync(filePath, 'utf8');
+    const file = fs.readFileSync(filePath, 'utf8').concat(fileType === 'css' ? 'pantheon{}' : '');
 
     app.get(url, function(req, res) {
       res.set(fileHeaders);
