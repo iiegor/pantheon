@@ -34,6 +34,8 @@ module.exports = {
 
 ### Effective asset distribution
 
+![asset-dist-diff](http://image.prntscr.com/image/127e679f1b964b79a823864073c9e743.png)
+
 While on development all assets will be called following this syntax:
 
 ``/_/pantheon/_/b={resourceBundle}/{resourceType}/rs={resourceName}``
