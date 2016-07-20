@@ -1,12 +1,12 @@
-const DEBUG = !(process.argv.indexOf('--prod') > -1);
+const DEBUG = process.argv.indexOf('--prod') === -1;
 
 const express = require('express')
   , bodyParser = require('body-parser')
-  , webpack = require('webpack')
+  , utils = require('loader-utils')
   , crypto = require('crypto')
   , path = require('path')
   , fs = require('fs')
-  , ect = require('ect')({ watch: DEBUG ? true : false, root : __dirname + '/views', ext : '.html' })
+  , ect = require('ect')({ watch: DEBUG, root : __dirname + (DEBUG ? '/views' : '/.build/views'), ext : '.html' })
   , polyfill = require('./polyfill')
   , routes = require('./routes')
   , config = require('./config');
@@ -22,7 +22,7 @@ app.use(express.static('public'));
  * Map features
  */
 const features = {};
-config.features.forEach((key, index) => {
+config.features.forEach(key => {
   const name = key[0]
     , opts = key.slice(1);
 
@@ -41,7 +41,7 @@ function createId(index) {
   if (routesLen >= 10) {
     for (var i = 0; i < length; i++) {
       id += length >= 2 ? str.charAt(i) : str;
-      id += i == length - 1 ? '' : '_';
+      id += i === length - 1 ? '' : '_';
     }
   } else {
     id = str;
@@ -50,19 +50,29 @@ function createId(index) {
   return id;
 }
 
-function provideAsset(fileName, filePath, fileType) {
-  const fileHash = 
-    new Buffer(crypto.createHash('md5').update(fileName).digest('hex'))
-    .toString('base64').substr(0, fileName.length * 1.5);
+function generateNonce() {
+  var str = '';
+  var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-+/';
 
+  for (var i = 0; i < 27; i++) {
+    str += possible.charAt(Math.floor(Math.random() * possible.length));
+  }
+
+  return str;
+}
+
+function provideAsset(fileName, filePath, fileType, bundleName) {
   const fileVersion = +fs.statSync(filePath).mtime;
+  const fileHash =
+    utils.getHashDigest(String(fileVersion), 'sha1', 'base64', 10) + '_' +
+    utils.getHashDigest(fileName, 'sha1', 'base64', 15);
   const fileHeaders = {
     'content-type': `${fileType === 'css' ? 'text/css' : 'text/javascript'}; charset=utf-8`,
     'cache-control': 'public, max-age=31536000'
   };
 
   const urlPrefix = '/' + features.prefixAssets[0]
-    , url = `${urlPrefix}/${fileType}/rs=${DEBUG ? fileName : fileHash}`;
+    , url = `${urlPrefix}/b=${bundleName}/${fileType === 'css' ? 'ss' : fileType}/rs=${DEBUG ? fileName : fileHash}`;
 
   if (DEBUG) {
     app.get(url, function (req, res) {
@@ -85,6 +95,7 @@ function provideAsset(fileName, filePath, fileType) {
  * Map routes and their assets
  */
 const routeMap = [];
+
 routes.forEach((key, index) => {
   /**
    * Assign id and data object
@@ -109,26 +120,29 @@ routes.forEach((key, index) => {
 /**
  * Compile, manage and serve assets
  */
-// TODO: Combine assets if the feature is enabled
-const assetMap = {};
+const bundleMap = new Map();
+
 Object.keys(polyfill.bundles).forEach((bundle) => {
   polyfill.bundles[bundle].forEach((key) => {
     const fileType = key[0]
-      , fileName = path.basename(key[1])
-      , filePath = path.join(__dirname, 'routes', key[1]);
+      , fileName = path.basename(key[1]);
+    
+    const filePath = DEBUG
+      ? path.join(__dirname, 'statics', key[1])
+      : path.join(__dirname, '.build', 'statics', key[1]);
 
-    // `key[key.length - 1]` to obtain the resource.
-    if (!assetMap[bundle]) {
-      assetMap[bundle] = {};
+    if (!bundleMap.has(bundle)) {
+      bundleMap.set(bundle, {});
     }
 
-    if (!assetMap[bundle][fileType]) {
-      assetMap[bundle][fileType] = [];
+    if (!bundleMap.get(bundle)[fileType]) {
+      bundleMap.get(bundle)[fileType] = [];
     }
 
-    assetMap[bundle][fileType].push(provideAsset(fileName, filePath, fileType));
+    bundleMap.get(bundle)[fileType].push(provideAsset(fileName, filePath, fileType, bundle));
   });
 });
+
 
 /**
  * Server internal routes
@@ -142,25 +156,6 @@ app.get('/_monitor/stats', (req, res) => {
 /**
  * Renderer middleware
  */
-/*app.all('*', function (req, res, next) {
-  req.data = {};
-
-  const method = req.method.toLowerCase();
-  const index = routeMap.indexOf(req.path);
-  const route = routes[index];
-
-  if (index > -1 && route[method]) {
-    route[method](req, res);
-
-    route._data.styles = assetMap['app'].css;
-    route._data.scripts = assetMap['app'].js;
-
-    res.end(ect.render(route.view, route._data));
-  } else {
-    res.status(404);
-    res.end('Not found');
-  }
-});*/
 routes.forEach((route) => {
   app.all(route.path, (req, res, next) => {
     const method = req.method.toLowerCase();
@@ -168,8 +163,8 @@ routes.forEach((route) => {
     if (route[method]) {
       route[method](req, res);
 
-      route._data.styles = assetMap['app'].css;
-      route._data.scripts = assetMap['app'].js;
+      route._data.bundles = bundleMap;
+      route._data.nonce = generateNonce();
 
       res.end(ect.render(route.view, route._data));
     } else {

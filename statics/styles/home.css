@@ -75,14 +75,13 @@ select {
   cursor: pointer;
   display: inline-block;
   font: 14px/20px Roboto,sans-serif;
-  height: 36px;
+  height: 34px;
   min-width: 72px;
   outline: 0;
   overflow: hidden;
   padding: 0 7px;
   text-align: left;
   text-indent: .01px;
-  text-overflow: ellipsis;
   text-overflow: '';
   transition: background-color .2s;
   vertical-align: middle;
@@ -99,7 +98,7 @@ select {
   height: 100%;
 }
 
-.HeaderOuter {
+.header-outer {
   position: absolute;
   display: block;
   left: 0;
@@ -109,7 +108,7 @@ select {
   z-index: 1;
 }
 
-.Header {
+.header {
   position: relative;
   background-color: #4173de;
   height: 50px;
@@ -118,23 +117,23 @@ select {
   box-shadow: 0 0 4px rgba(0,0,0,.14),0 4px 8px rgba(0,0,0,.28);
 }
 
-.Header__inner {
+.header-inner {
   display: flex;
   align-items: center;
   height: inherit;
   padding: 0 15px;
 }
 
-.Header__breadcrumb {
+.header-breadcrumb {
   color: #fff;
   transition: color .2s;
 }
 
-.Header__breadcrumb:hover {
+.header-breadcrumb:hover {
   color: rgba(255,255,255,.7);
 }
 
-.Header__serviceName {
+.header-serviceName {
   display: inline-block;
   font: 20px/36px Roboto,sans-serif;
   letter-spacing: 0;
@@ -143,12 +142,12 @@ select {
   white-space: nowrap;
 }
 
-.Header__leftWrapper {
+.header-leftWrapper {
   flex: 1 auto;
 }
 
-.Header__publishButton,
-.Header__settingsButton {
+.header-publishButton,
+.header-settingsButton {
   background: 0;
   box-shadow: none;
   color: rgba(255,255,255,.7);
@@ -158,23 +157,23 @@ select {
   right: 0;
 }
 
-.Header__publishButton:hover,
-.Header__settingsButton:hover {
+.header-publishButton:hover,
+.header-settingsButton:hover {
   background-color: rgba(204,204,204,.15);
   box-shadow: none;
   color: #fff;
 }
 
-.Header__settingsButton {
+.header-settingsButton {
   padding: 3px;
 }
 
-.Header__settingsButton span.material-icons {
+.header-settingsButton span.material-icons {
   position: relative;
   top: 3px;
 }
 
-.Notice {
+.notice {
   font-size: 14px;
   margin: -15px -15px 15px;
   text-align: left;
@@ -183,34 +182,33 @@ select {
   font-weight: 500;
 }
 
-.Notice__inner {
+.notice-inner {
   padding: 6px 15px;
 }
 
-.Notice__inner :link,
-.Notice__inner :visited {
+.notice-inner :link,
+.notice-inner :visited {
   background: #fff3e0;
   color: #dd2c00;
   font-weight: 500;
 }
 
-.Notice__link {
+.notice-link {
   padding: 2px 4px;
 }
 
-.Notice__link:focus {
+.notice-link:focus {
   background: rgba(255,255,255,.7);
   border-radius: 2px;
   text-decoration: none;
   outline: none;
 }
 
-.Content {
+.content {
   position: relative;
   background-color: #fff;
   box-shadow: 0 0 4px rgba(0,0,0,.14),0 4px 8px rgba(0,0,0,.28);
   z-index: 2;
-  //min-height: calc(100% - 50px);
   padding: 15px;
 }
 
@@ -247,44 +245,44 @@ select {
   border-right: 1px solid #ebebeb;
 }
 
-.Promotion__title,
-.Preview__title {
+.promotion-title,
+.preview-title {
   font: 300 28px/40px Roboto,sans-serif;
   letter-spacing: -.01em;
   margin: 8px 0 0;
   color: #757575;
 }
 
-.Promotion__subtitle,
-.Preview__subtitle {
+.promotion-subtitle,
+.preview-subtitle {
   font: 300 24px/40px Roboto,sans-serif;
   letter-spacing: -.01em;
   margin: 8px 0 0;
   color: #757575;
 }
 
-.Promotion__subtitleInfo {
+.promotion-subtitleInfo {
   font: 300 14px/20px Roboto,sans-serif;
   vertical-align: middle;
 }
 
-.Promotion__input {
+.promotion-input {
   min-width: 68%;
 }
 
-.Promotion__input--price {
+.promotion-input--price {
   display: inline-block;
   width: 110px;
   min-width: initial;
 }
 
-.Preview {
+.preview {
   position: relative;
   float: right;
   width: 470px;
 }
 
-.Preview div[data-outlet] .Preview__advice {
+.preview div[data-outlet] .preview-advice {
   display: block;
   font: 300 24px/32px Roboto,sans-serif;
   letter-spacing: -.01em;
@@ -292,29 +290,34 @@ select {
   color: #616161;
 }
 
-.Footer {
+.footer {
   background: #455a64;
   margin: 25px -15px -15px;
 }
 
-.Footer__inner {
+.footer-inner {
   color: #fff;
   padding: 10px 15px;
 }
 
-.Footer a {
+.footer a {
   color: rgba(255,255,255,.9);
 }
 
-.Footer span {
+.footer span {
   color: rgba(255,255,255,.7);
   transition: color .2s;
 }
 
-.Footer a:hover span {
+.footer a:hover span {
   color: inherit;
 }
 
-.Footer__info {
+.footer-info {
   margin-left: 15px;
+}
+
+.text-promo {
+  font-size: 40px;
+  color: red;
 }
