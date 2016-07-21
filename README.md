@@ -1,4 +1,4 @@
-# Pantheon
+# Pantheon ![npm-deps](https://david-dm.org/iiegor/pantheon.svg)
 
 > Node.js web server focused on performance and simplicity using the latest technologies
 
