@@ -41,3 +41,12 @@ While on development all assets will be called following this syntax:
 ``/_/pantheon/_/b={resourceBundle}/{resourceType}/rs={resourceName}``
 
 On production, the resource name will be replaced by a string concatenation of the ``last modification time`` of the file with the resource name (string is hashed).
+
+## Installation
+
+You can get the latest stable release from the [releases](https://github.com/iiegor/pantheon/releases) page.
+
+Once you've downloaded it, you are ready to run ``$ npm install`` to install all the needed dependencies by the server.
+
+## Lincese
+MIT © [Iegor Azuaga](https://github.com/iiegor)
