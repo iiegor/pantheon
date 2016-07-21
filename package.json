@@ -11,11 +11,10 @@
   },
   "dependencies": {
     "body-parser": "^1.15.1",
+    "compression": "^1.6.2",
     "ect": "^0.5.9",
     "express": "^4.14.0",
-    "loader-utils": "^0.2.15",
-    "react": "^15.1.0",
-    "react-dom": "^15.1.0"
+    "loader-utils": "^0.2.15"
   },
   "devDependencies": {
     "closurecompiler": "^1.5.3",

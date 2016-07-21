@@ -212,33 +212,7 @@ select {
   padding: 15px;
 }
 
-.SettingsPopout {
-  background: #fff;
-  border-radius: 1px;
-  box-shadow: 0 2px 5px 0 rgba(0,0,0,.26);
-  margin: -40px 35%;
-  max-height: calc(100vh - 48px);
-  overflow-y: auto;
-  position: absolute;
-  transition: all .2s,visibility .2s;
-  opacity: 1;
-  transform: translateY(0);
-  width: 25%;
-  z-index: 1;
-  right: 0;
-}
-
-.SettingsPopout--closed {
-  transform: translateY(-40%);
-  opacity: 0;
-  visibility: hidden;
-}
-
-.SettingsPopout__inner {
-  padding: 5px 10px;
-}
-
-.Promotion {
+.promotion {
   display: inline-block;
   position: relative;
   width: calc(100% - 496px);
@@ -318,6 +292,5 @@ select {
 }
 
 .text-promo {
-  font-size: 40px;
   color: red;
 }

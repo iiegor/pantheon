@@ -7,7 +7,7 @@ module.exports = {
    */
   assets: [
     ['js', 'scripts/home.js'],
-    ['css', 'styles/home.css'],
+    ['css', 'styles/home.css', 'sync'],
   ].bundle('QuantumUi'),
 
   childrens: [],

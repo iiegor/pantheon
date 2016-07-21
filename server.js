@@ -7,6 +7,7 @@ const express = require('express')
   , path = require('path')
   , fs = require('fs')
   , ect = require('ect')({ watch: DEBUG, root : __dirname + (DEBUG ? '/views' : '/.build/views'), ext : '.html' })
+  , compression = require('compression')
   , polyfill = require('./polyfill')
   , routes = require('./routes')
   , config = require('./config');
@@ -16,6 +17,7 @@ app.set('env', DEBUG ? 'development' : 'production');
 app.set('x-powered-by', false);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(compression());
 app.use(express.static('public'));
 
 /**
@@ -125,7 +127,8 @@ const bundleMap = new Map();
 Object.keys(polyfill.bundles).forEach((bundle) => {
   polyfill.bundles[bundle].forEach((key) => {
     const fileType = key[0]
-      , fileName = path.basename(key[1]);
+      , fileName = path.basename(key[1])
+      , fileMode = key[2] || 'async';
     
     const filePath = DEBUG
       ? path.join(__dirname, 'statics', key[1])
@@ -139,7 +142,19 @@ Object.keys(polyfill.bundles).forEach((bundle) => {
       bundleMap.get(bundle)[fileType] = [];
     }
 
-    bundleMap.get(bundle)[fileType].push(provideAsset(fileName, filePath, fileType, bundle));
+    // TODO: Watch for modifications when on sync mode
+    const resource = fileMode === 'async'
+      ? {url: provideAsset(fileName, filePath, fileType, bundle)}
+      : {source: fs.readFileSync(filePath, 'utf8')};
+
+    resource.mode = fileMode;
+
+    // Watch for changes on sync mode
+    if (DEBUG && resource.mode === 'sync') {
+      fs.watch(filePath, {encoding: 'buffer'}, _ => resource.source = fs.readFileSync(filePath, 'utf8'));
+    }
+
+    bundleMap.get(bundle)[fileType].push(resource);
   });
 });
 
