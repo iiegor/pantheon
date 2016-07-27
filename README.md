@@ -53,6 +53,39 @@ While on development all assets will be called following this syntax:
 
 On production, the resource name will be replaced by a string concatenation of the ``last modification time`` of the file with the resource name (string is hashed).
 
+### DOM binding
+
+###### The ``jsaction`` attribute
+
+```html
+<button jsaction="click:button.alert">
+  <span>Show alert!</span>
+</button>
+```
+
+```javascript
+let JSActions = {
+  /**
+   * @namespace button
+   */
+  'button.alert': () => alert('Hello world!'),
+};
+```
+
+###### The ``jsname`` attribute
+
+Since all the elements class attributes are minified on production, we didn't have a solid way to reference a desired HTML element so we decided to create the ``jsname`` attr which acts as a reference to the desired HTML element.
+
+```html
+<div class="class-name another-class" jsname="my-button"></div>
+```
+
+```javascript
+let div = document.querySelector('[jsname="my-button"]');
+```
+
+*NOTE: The value inside ``jsname`` attr is minified so everything that doesn't pass through the build process won't work on production*
+
 ## Installation
 
 You can get the latest stable release from the [releases](https://github.com/iiegor/pantheon/releases) page.
