@@ -10,6 +10,14 @@
 
 ##### **Difference between development and production code*
 
+###### Exporting class names
+```css
+.login-tab .exportTitle { /* .NjA-NTk .exportTitle */
+  font-size: 20px;
+  color: #000;
+}
+```
+
 ### Resource bundles
 
 You can create bundles that contains multiple static resources and require them when needed.
@@ -19,17 +27,18 @@ module.exports = {
   path: '/route',
   
   assets: [
+    ['css', 'styles/route-style.js', 'sync'], // Source code will be writen into the DOM
     ['js', 'scripts/route-script.js'],
-  ].bundle('RouteBundle'),
+  ].bundle('ApplicationUi'),
   
   // ..
 };
 ```
 
 ```html
-<% for script in @bundles.get('RouteBundle').js : %>
-  <script src="<%- script %>" nonce="<%- @nonce %>"></script>
-<% end %>
+{% for script in bundles.get('ApplicationUi').js %}
+  <script src="{{ script.url }}"></script>
+{% endfor %}
 ```
 
 ### Effective asset distribution
