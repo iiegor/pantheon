@@ -12,11 +12,13 @@
 
 ###### Exporting class names
 ```css
-.login-tab .exportTitle { /* .NjA-NTk .exportTitle */
+.login-tab .exportTitle {
   font-size: 20px;
   color: #000;
 }
 ```
+
+The code above will result into something like this: ``.NjA-NTk .exportTitle``
 
 ### Resource bundles
 
