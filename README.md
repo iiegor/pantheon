@@ -2,7 +2,7 @@
 
 > Node.js web server focused on performance and simplicity using the latest technologies
 
-:warning: This is a personal project that I decided to open-source and the strategies used can be possitive or not depending of the type of website you want to build, it's not meant for a general public use.
+:warning: This is a personal project that I decided to open-source and the strategies used can be possitive or not depending on the type of website you want to build, it's not meant for a general public use.
 
 ## Features
 
