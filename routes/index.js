@@ -1,4 +1,4 @@
 module.exports = [
-  require('./promotion/create'),
-  require('./promotion/view'),
+  require('./home/index'),
+  require('./home/about'),
 ];

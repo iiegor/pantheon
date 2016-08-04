@@ -1,10 +1,5 @@
 {
   "private": true,
-  "scripts": {
-    "start": "nodemon ./server.js",
-    "build": "node ./build.js",
-    "lint": "jshint ./server.js ./polyfill.js ./routes"
-  },
   "engines": {
     "node": ">=5.0",
     "npm": ">=3.0"
@@ -12,13 +7,26 @@
   "dependencies": {
     "body-parser": "^1.15.1",
     "compression": "^1.6.2",
-    "ect": "^0.5.9",
     "express": "^4.14.0",
-    "loader-utils": "^0.2.15"
+    "loader-utils": "^0.2.15",
+    "nunjucks": "^2.4.2"
   },
   "devDependencies": {
+    "autoprefixer": "^6.3.7",
+    "clean-css": "^3.4.18",
     "closurecompiler": "^1.5.3",
+    "del": "^2.2.1",
+    "glob": "^7.0.5",
+    "html-minifier": "^3.0.1",
     "jshint": "^2.9.2",
-    "nodemon": "^1.9.2"
+    "nodemon": "^1.9.2",
+    "postcss": "^5.1.0",
+    "postcss-modules": "^0.5.0"
+  },
+  "scripts": {
+    "start": "nodemon ./server.js",
+    "start:prod": "node ./server.js --prod",
+    "build": "node ./build.js",
+    "lint": "jshint ./server.js ./routes"
   }
 }

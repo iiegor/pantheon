@@ -1,0 +1,13 @@
+{% extends 'components/layout.html' %}
+
+{% block bodyStart %}
+<style>@import url("{{ assets.get('style!routes/about') }}");</style>
+{% endblock %}
+
+{% block content %}
+<div class="site-content">
+  <div class="site-content-wrapper u-alignCenter">
+    About view!
+  </div>
+</div>
+{% endblock %}

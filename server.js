@@ -3,33 +3,32 @@ const DEBUG = process.argv.indexOf('--prod') === -1;
 const express = require('express')
   , bodyParser = require('body-parser')
   , utils = require('loader-utils')
-  , crypto = require('crypto')
   , path = require('path')
   , fs = require('fs')
-  , ect = require('ect')({ watch: DEBUG, root : __dirname + (DEBUG ? '/views' : '/.build/views'), ext : '.html' })
+  , nunjucks = require('nunjucks')
   , compression = require('compression')
-  , polyfill = require('./polyfill')
   , routes = require('./routes')
   , config = require('./config');
 
 const app = express();
 app.set('env', DEBUG ? 'development' : 'production');
 app.set('x-powered-by', false);
+app.set('view engine', 'html');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(compression());
 app.use(express.static('public'));
 
 /**
- * Map features
+ * Setup nunjucks environment
  */
-const features = {};
-config.features.forEach(key => {
-  const name = key[0]
-    , opts = key.slice(1);
+const nunjucksEnv = new nunjucks.Environment(
+  new nunjucks.FileSystemLoader(path.join(__dirname, (DEBUG ? '/views' : '/.build/views')), {
+    watch: true,
+  })
+);
 
-  features[name] = opts;
-});
+nunjucksEnv.express(app);
 
 /**
  * Helpers
@@ -73,8 +72,7 @@ function provideAsset(fileName, filePath, fileType, bundleName) {
     'cache-control': 'public, max-age=31536000'
   };
 
-  const urlPrefix = '/' + features.prefixAssets[0]
-    , url = `${urlPrefix}/b=${bundleName}/${fileType === 'css' ? 'ss' : fileType}/rs=${DEBUG ? fileName : fileHash}`;
+  const url = `/_/pantheon/_/b=${bundleName}/${fileType === 'css' ? 'ss' : fileType}/rs=${DEBUG ? fileName : fileHash}`;
 
   if (DEBUG) {
     app.get(url, function (req, res) {
@@ -94,38 +92,54 @@ function provideAsset(fileName, filePath, fileType, bundleName) {
 }
 
 /**
- * Map routes and their assets
+ * Map routes
  */
-const routeMap = [];
+const assetMap = new Map();
 
-routes.forEach((key, index) => {
-  /**
-   * Assign id and data object
-   */
-  key._id = 'u_' + createId(index);
-  key._data = {};
+routes.forEach((route, index) => {
+  route._id = 'r_' + createId(index);
+  route._data = {};
 
-  /**
-   * Route context
-   */
-  key.context = {};
-  key.context.set = (_key, value) => {
-    key._data[_key] = value;
-  };
-  key.context.clean = () => {
-    key._data = {};
+  // Route context
+  route.context = {};
+
+  route.context.set = (key, value) => {
+    route._data[key] = value;
   };
 
-  routeMap.push(key.path);
+  route.context.clean = () => {
+    route._data = {};
+  };
+
+  // Provide route assets
+  if (route.assets) {
+    route.assets.forEach((asset, index) => {
+      const basePath = DEBUG
+        ? path.join(__dirname, 'statics')
+        : path.join(__dirname, '.build', 'statics');
+
+      if (asset.includes('style!')) {
+        var filePath = path.join(basePath, 'styles', `${asset.replace('style!', '')}.css`);
+      } else if (asset.includes('script!')) {
+        var filePath = path.join(basePath, 'scripts', `${asset.replace('script!', '')}.js`);
+      }
+
+      assetMap.set(asset, provideAsset(
+        /*fileName*/path.basename(filePath),
+        filePath,
+        /*fileType*/path.extname(filePath).substr(1),
+        /*bundleName*/route._id));
+    });
+  }
 });
 
 /**
- * Compile, manage and serve assets
+ * Serve bundles
  */
 const bundleMap = new Map();
 
-Object.keys(polyfill.bundles).forEach((bundle) => {
-  polyfill.bundles[bundle].forEach((key) => {
+Object.keys(config.bundles).forEach((bundle) => {
+  config.bundles[bundle].forEach((key) => {
     const fileType = key[0]
       , fileName = path.basename(key[1])
       , fileMode = key[2] || 'async';
@@ -142,16 +156,15 @@ Object.keys(polyfill.bundles).forEach((bundle) => {
       bundleMap.get(bundle)[fileType] = [];
     }
 
-    // TODO: Watch for modifications when on sync mode
     const resource = fileMode === 'async'
-      ? {url: provideAsset(fileName, filePath, fileType, bundle)}
-      : {source: fs.readFileSync(filePath, 'utf8')};
+      ? { url: provideAsset(fileName, filePath, fileType, bundle) }
+      : { source: fs.readFileSync(filePath, 'utf8') };
 
     resource.mode = fileMode;
 
     // Watch for changes on sync mode
     if (DEBUG && resource.mode === 'sync') {
-      fs.watch(filePath, {encoding: 'buffer'}, _ => resource.source = fs.readFileSync(filePath, 'utf8'));
+      fs.watch(filePath, {encoding: 'buffer'}, () => resource.source = fs.readFileSync(filePath, 'utf8'));
     }
 
     bundleMap.get(bundle)[fileType].push(resource);
@@ -172,21 +185,29 @@ app.get('/_monitor/stats', (req, res) => {
  * Renderer middleware
  */
 routes.forEach((route) => {
+
   app.all(route.path, (req, res, next) => {
     const method = req.method.toLowerCase();
 
     if (route[method]) {
       route[method](req, res);
 
+      route._data.view = route.view;
       route._data.bundles = bundleMap;
+      route._data.assets = assetMap;
       route._data.nonce = generateNonce();
 
-      res.end(ect.render(route.view, route._data));
+      res.render(route.view, route._data);
     } else {
       next();
     }
   });
 });
+
+/**
+ * Error page
+ */
+app.use((req, res) => res.end('Not found'));
 
 /**
  * Listen
