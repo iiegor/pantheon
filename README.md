@@ -10,6 +10,16 @@
 
 ##### **Difference between development and production code*
 
+###### Exporting class names
+```css
+.login-tab .exportTitle {
+  font-size: 20px;
+  color: #000;
+}
+```
+
+The code above will result into something like this: ``.NjA-NTk .exportTitle``
+
 ### Resource bundles
 
 You can create bundles that contains multiple static resources and require them when needed.
@@ -19,17 +29,18 @@ module.exports = {
   path: '/route',
   
   assets: [
+    ['css', 'styles/route-style.js', 'sync'], // Source code will be writen into the DOM
     ['js', 'scripts/route-script.js'],
-  ].bundle('RouteBundle'),
+  ].bundle('ApplicationUi'),
   
   // ..
 };
 ```
 
 ```html
-<% for script in @bundles.get('RouteBundle').js : %>
-  <script src="<%- script %>" nonce="<%- @nonce %>"></script>
-<% end %>
+{% for script in bundles.get('ApplicationUi').js %}
+  <script src="{{ script.url }}"></script>
+{% endfor %}
 ```
 
 ### Effective asset distribution
@@ -41,6 +52,39 @@ While on development all assets will be called following this syntax:
 ``/_/pantheon/_/b={resourceBundle}/{resourceType}/rs={resourceName}``
 
 On production, the resource name will be replaced by a string concatenation of the ``last modification time`` of the file with the resource name (string is hashed).
+
+### DOM binding
+
+###### The ``jsaction`` attribute
+
+```html
+<button jsaction="click:button.alert">
+  <span>Show alert!</span>
+</button>
+```
+
+```javascript
+let JSActions = {
+  /**
+   * @namespace button
+   */
+  'button.alert': () => alert('Hello world!'),
+};
+```
+
+###### The ``jsname`` attribute
+
+Since all the elements class attributes are minified on production, we didn't have a solid way to reference a desired HTML element so we decided to create the ``jsname`` attr which acts as a reference to the desired HTML element.
+
+```html
+<div class="class-name another-class" jsname="my-button"></div>
+```
+
+```javascript
+let div = document.querySelector('[jsname="my-button"]');
+```
+
+*NOTE: The value inside ``jsname`` attr is minified so everything that doesn't pass through the build process won't work on production*
 
 ## Installation
 
