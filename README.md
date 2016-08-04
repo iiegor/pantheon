@@ -29,18 +29,16 @@ module.exports = {
   path: '/route',
   
   assets: [
-    ['css', 'styles/route-style.js', 'sync'], // Source code will be writen into the DOM
-    ['js', 'scripts/route-script.js'],
-  ].bundle('ApplicationUi'),
+    'style!route-style',
+    'script!route-script'
+  ],
   
   // ..
 };
 ```
 
 ```html
-{% for script in bundles.get('ApplicationUi').js %}
-  <script src="{{ script.url }}"></script>
-{% endfor %}
+<style>@import url("{{ assets.get('style!route-style') }}");
 ```
 
 ### Effective asset distribution
