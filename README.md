@@ -92,5 +92,19 @@ You can get the latest stable release from the [releases](https://github.com/iie
 
 Once you've downloaded it, you are ready to run ``$ npm install`` / ``yarn install`` to install all the needed dependencies by the server.
 
+## Tasks
+
+#### npm run ``dev``
+
+###### Run server in development mode.
+
+#### npm run ``build``
+
+###### Compile and minify all assets.
+
+#### npm run ``start``
+
+###### Run a production version of the server *(need to run ``npm run build`` before)*
+
 ## Lincese
 MIT © [Iegor Azuaga](https://github.com/iiegor)
