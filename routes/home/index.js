@@ -6,7 +6,7 @@ module.exports = {
    * NOTE: The following methods are executed on every request so
    *  large tasks will increase the page load time.
    */
-  get(req, res) {
+  get() {
     this.context.set('title', 'Home');
   }
 };

@@ -11,6 +11,7 @@ const Postcss = require('postcss');
 const CleanCSS = require('clean-css');
 const Del = require('del');
 const Minifier = require('html-minifier');
+const Uglify = require('uglify-js');
 const Utils = require('loader-utils');
 
 const config = require('./config');
@@ -34,31 +35,11 @@ const createDir = (path) => !fs.existsSync(path) ? fs.mkdirSync(path) : true;
 const encodeString = (str) => new Buffer(crypto.createHash('md5').update(str).digest('hex')).toString('base64').substring(0, 5);
 const getDirname = (_path) => path.dirname(_path);
 
-const safeExec = function(command, options, callback) {
-  if (!callback) {
-    callback = options;
-    options = {};
-  }
-  if (!options)
-    options = {};
-
-  options.maxBuffer = 1024 * 1024;
-
-  var child = childProcess.exec(command, options, function(error, stdout, stderr) {
-    if (error)
-      process.exit(error.code || 1);
-    else if (callback)
-      callback(null);
-  });
-  child.stderr.pipe(process.stderr);
-  if (!options.ignoreStdout)
-    child.stdout.pipe(process.stdout);
-}
-
 // Compile stylesheets
 // TODO: Support user-defined plugins.
 const compileStyles = () => new Promise(resolve => {
   let cssMap = {};
+  let classNames = {};
 
   Glob(path.join(stylesDir, '**', '*.css'), (err, files) => files.forEach((file, index) => {
     Postcss([
@@ -66,24 +47,32 @@ const compileStyles = () => new Promise(resolve => {
       require('postcss-modules')({
         scopeBehaviour: config.build.css.scopeBehaviour,
         generateScopedName: function(name, filename, css) {
+          const selectorPattern = config.build.css.selectorPattern;
+
           // check if its a exported className
           if (name.indexOf('export') > -1) {
             return name;
-          }
+          } else if (selectorPattern === 'split') {
+            let selector = name.split('-');
 
-          let selector = name.split('-');
-
-          selector.forEach((str, index) => {
-            const selectorPattern = config.build.css.selectorPattern;
-
-            if (selectorPattern == 'advanced') {
-              selector[index] = '_' + Utils.getHashDigest(str, 'sha1', 'base64', 3);
-            } else if (selectorPattern == 'basic') {
+            selector.forEach((str, index) => {
               selector[index] = new Buffer(crypto.createHash('md5').update(str).digest('hex')).toString('base64').substring(0, 3);
-            }
-          });
+            });
+          
+            return selector.join('-');
+          } else if (selectorPattern === 'custom') {
+            let selector = name.split('-');
 
-          return selector.join('-');
+            selector.forEach((str, index) => {
+              selector[index] = Utils.getHashDigest(str, 'sha1', 'base64', index == 0 ? 3 : 2);
+            });
+          
+            return '_' + selector.join('-');
+          } else if (selectorPattern === 'webpack') {
+            return '_'.concat(Utils.getHashDigest(name, 'sha1', 'base64', 4));
+          } else {
+            return encodeString(name);
+          }
         },
 
         getJSON: (fileName, map) => {
@@ -229,13 +218,10 @@ const compileTemplates = () => new Promise(resolve => {
     }, config.build.html));
 
     // Write template file
-    if (templatePath.indexOf('components') > -1) {
-      createDir(path.join(buildViewsDir, 'components'));
-      
-      fs.writeFileSync(path.join(buildViewsDir, 'components', path.basename(templatePath)), source, 'utf-8');
-    } else {
-      fs.writeFileSync(path.join(buildViewsDir, path.basename(templatePath)), source, 'utf-8');
-    }
+    const relativePath = path.relative(viewsDir, templatePath);
+
+    createDir(path.join(buildViewsDir, 'components'));
+    fs.writeFileSync(path.join(buildViewsDir, relativePath), source, 'utf-8');
 
     if (index === templates.length - 1) {
       // Write
@@ -250,19 +236,20 @@ const compileTemplates = () => new Promise(resolve => {
 // Compile scripts
 // TODO: Rename classNames in .querySelector and .querySelectorAll methods.
 const compileScripts = () => new Promise(resolve => {
-  const compileScript = (name, source, cb) => {
+  const compileScript = (file, source, cb) => {
     // Process jsaction map
     // TODO: Add more precision to the replace in a future,
     //  some components name can conflict with jsaction names.
     const jsactionMap = JSON.parse(fs.readFileSync(path.join(buildMapsDir, 'jsaction.json'), 'utf-8'));
     Object.keys(jsactionMap).forEach(action => {
-      source = source.replace(action, jsactionMap[action]);
+      const regex = new RegExp(action, 'g');
+      source = source.replace(regex, jsactionMap[action]);
     });
 
     // Process css map
     const cssMap = JSON.parse(fs.readFileSync(path.join(buildMapsDir, 'css.json'), 'utf-8'));
     source = source.replace(
-      /classList.(?:add|remove|contains)\(["']([^"']*)["']\)/g,
+      /classList.(?:add|remove|contains|toggle)\(["']([^"']*)["']\)/g,
       (line, selector) => {
         if (selector) {
           line = line.replace(selector, cssMap[selector] || selector);
@@ -286,27 +273,43 @@ const compileScripts = () => new Promise(resolve => {
     );
 
     // Write
-    fs.writeFile(path.join(buildScriptsDir, name), source, () => {
+    const relativePath = path.relative(scriptsDir, file);
+    const filePath = path.join(buildScriptsDir, relativePath);
+    
+    createDir(getDirname(filePath));
+
+    fs.writeFile(filePath, source, () => {
       cb(true);
     });
   };
 
-  // TODO: Fix high memory usage (probably due to parallel compilation)
+  // TODO: Fix high memory usage (probably due to parallel compilation).
+  // TODO: Add browserify/webpack support.
   Glob(path.join(scriptsDir, '**', '*.js'), (err, files) => files.forEach((file, index) => {
-    Closure.compile([file], {
-      compilation_level: 'ADVANCED_OPTIMIZATIONS',
-      language_out: 'ES5',
-      debug: false,
-    }, (err, source) => {
-      if (err)
-        console.log(err);
+    if (config.build.js.minifier === 'closure') {
+      Closure.compile([file], {
+        compilation_level: 'ADVANCED_OPTIMIZATIONS',
+        language_out: 'ES5',
+        debug: false,
+      }, (err, source) => {
+        if (err)
+          console.log(err);
 
-      compileScript(path.basename(file), source, () => {
+        compileScript(file, source, () => {
+
+          if (index === files.length - 1)
+            resolve();
+        });
+      });
+    } else {
+      var source = Uglify.minify(fs.readFileSync(file, 'utf-8'), {fromString: true});
+
+      compileScript(file, source.code, () => {
 
         if (index === files.length - 1)
           resolve();
       });
-    });
+    }
   }));
 });
 

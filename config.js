@@ -1,27 +1,34 @@
 module.exports = {
-  port: 8080,
+  port: process.env.PORT || 8080,
 
   bundles: {
-    'QuantumUi': [
-      ['css', 'styles/fonts.css', 'sync'],
-      ['css', 'styles/quantum.css', 'async'],
-      ['css', 'styles/quantum.theme.css', 'sync'],
-      ['js', 'scripts/quantum.js'],
+    'pantheon.ui': [
+      /** @info Layout reset & polyfills */
+      ['css', 'styles/pantheon.reset.css'],
+
+      /** @info Pantheon UI */
+      ['css', 'styles/pantheon.fonts.css', 'sync'],
+      ['css', 'styles/pantheon.theme.css', 'sync'],
+      ['js', 'scripts/pantheon.site.js', 'sync'],
     ],
 
     // ..
   },
 
   build: {
-    // See html-minifier documentation.
+    /** @info See html-minifier documentation. */
     html: {
       removeComments: true,
       collapseWhitespace: true,
     },
 
     css: {
-      scopeBehavior: 'local',
-      selectorPattern: 'basic',
+      scopeBehavior: 'local', //=> [local, global]
+      selectorPattern: 'webpack', //=> [default, split, webpack]
+    },
+
+    js: {
+      minifier: 'closure',  //=> [closure, uglify]
     }
   }
 };

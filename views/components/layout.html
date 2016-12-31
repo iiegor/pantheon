@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <title>{{ 'Pantheon - ' + title if title else 'Pantheon' }}</title>
 
-  {% for style in bundles.get('QuantumUi').css %}
+  {% for style in bundles.get('pantheon.ui').css %}
   {% if style.mode == 'sync' %}
   <style nonce="{{ nonce }}">{{ style.source | safe }}</style>
   {% else %}
@@ -41,7 +41,7 @@
 
   {% block content %}{% endblock %}
   
-  {% for script in bundles.get('QuantumUi').js %}
+  {% for script in bundles.get('pantheon.ui').js %}
   {% if script.mode == 'sync' %}
   <script nonce="{{ nonce }}">{{ script.source | safe }}</script>
   {% else %}

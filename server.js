@@ -99,6 +99,7 @@ const assetMap = new Map();
 routes.forEach((route, index) => {
   route._id = 'r_' + createId(index);
   route._data = {};
+  route.assets = route.assets || [];
 
   // Route context
   route.context = {};
@@ -112,25 +113,23 @@ routes.forEach((route, index) => {
   };
 
   // Provide route assets
-  if (route.assets) {
-    route.assets.forEach((asset, index) => {
-      const basePath = DEBUG
-        ? path.join(__dirname, 'statics')
-        : path.join(__dirname, '.build', 'statics');
+  route.assets.forEach(asset => {
+    const basePath = DEBUG ? path.join(__dirname, 'statics')
+      : path.join(__dirname, '.build', 'statics');
 
-      if (asset.includes('style!')) {
-        var filePath = path.join(basePath, 'styles', `${asset.replace('style!', '')}.css`);
-      } else if (asset.includes('script!')) {
-        var filePath = path.join(basePath, 'scripts', `${asset.replace('script!', '')}.js`);
-      }
+    let filePath = '';
+    if (asset.includes('style!')) {
+      filePath = path.join(basePath, 'styles', `${asset.replace('style!', '')}.css`);
+    } else if (asset.includes('script!')) {
+      filePath = path.join(basePath, 'scripts', `${asset.replace('script!', '')}.js`);
+    }
 
-      assetMap.set(asset, provideAsset(
-        /*fileName*/path.basename(filePath),
-        filePath,
-        /*fileType*/path.extname(filePath).substr(1),
-        /*bundleName*/route._id));
-    });
-  }
+    assetMap.set(asset, provideAsset(
+      /*fileName*/path.basename(filePath),
+      filePath,
+      /*fileType*/path.extname(filePath).substr(1),
+      /*bundleName*/route._id));
+  });
 });
 
 /**
@@ -144,8 +143,7 @@ Object.keys(config.bundles).forEach((bundle) => {
       , fileName = path.basename(key[1])
       , fileMode = key[2] || 'async';
     
-    const filePath = DEBUG
-      ? path.join(__dirname, 'statics', key[1])
+    const filePath = DEBUG ? path.join(__dirname, 'statics', key[1])
       : path.join(__dirname, '.build', 'statics', key[1]);
 
     if (!bundleMap.has(bundle)) {
@@ -156,8 +154,7 @@ Object.keys(config.bundles).forEach((bundle) => {
       bundleMap.get(bundle)[fileType] = [];
     }
 
-    const resource = fileMode === 'async'
-      ? { url: provideAsset(fileName, filePath, fileType, bundle) }
+    const resource = fileMode === 'async' ? { url: provideAsset(fileName, filePath, fileType, bundle) }
       : { source: fs.readFileSync(filePath, 'utf8') };
 
     resource.mode = fileMode;
