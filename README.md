@@ -58,18 +58,18 @@ On production, the resource name will be replaced by a string concatenation of t
 ###### The ``jsaction`` attribute
 
 ```html
+<!-- <div jsaction="evt:method;evt:method.." /> -->
+
 <button jsaction="click:button.alert">
   <span>Show alert!</span>
 </button>
+
+<input type="text" jsaction="input:input.change">
 ```
 
 ```javascript
-let JSActions = {
-  /**
-   * @namespace button
-   */
-  'button.alert': () => alert('Hello world!'),
-};
+bind('button.alert', () => alert('Hello world!'));
+bind('input.change', (evt) => alert(evt.target.value));
 ```
 
 ###### The ``jsname`` attribute
@@ -88,9 +88,9 @@ let div = document.querySelector('[jsname="my-button"]');
 
 ## Installation
 
-You can get the latest stable release from the [releases](https://github.com/iiegor/pantheon/releases) page.
+You can get the latest stable release from the [releases](https://github.com/iiegor/pantheon/releases) page or ``git clone https://github.com/iiegor/pantheon``.
 
-Once you've downloaded it, you are ready to run ``$ npm install`` to install all the needed dependencies by the server.
+Once you've downloaded it, you are ready to run ``$ npm install`` / ``yarn install`` to install all the needed dependencies by the server.
 
 ## Lincese
 MIT © [Iegor Azuaga](https://github.com/iiegor)
