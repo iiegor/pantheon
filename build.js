@@ -247,6 +247,7 @@ const compileScripts = () => new Promise(resolve => {
     });
 
     // Process css map
+    // TODO: Improve class name replacement
     const cssMap = JSON.parse(fs.readFileSync(path.join(buildMapsDir, 'css.json'), 'utf-8'));
     source = source.replace(
       /classList.(?:add|remove|contains|toggle)\(["']([^"']*)["']\)/g,
