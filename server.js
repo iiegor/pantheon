@@ -161,6 +161,7 @@ Object.keys(config.bundles).forEach((bundle) => {
 
     // Watch for changes on sync mode
     if (DEBUG && resource.mode === 'sync') {
+      // todo: add a time query '?t' to notify the cache about the change
       fs.watch(filePath, {encoding: 'buffer'}, () => resource.source = fs.readFileSync(filePath, 'utf8'));
     }
 
@@ -189,18 +190,19 @@ routes.forEach((route) => {
     if (route[method]) {
       route[method](req, res);
 
-      route._data.view = route.view;
-      route._data.bundles = bundleMap;
-      route._data.assets = assetMap;
-      route._data.nonce = generateNonce();
-
-      res.render(route.view, route._data);
+      if (!route.async && !res.headersSent) {
+        route._data.view = route.view;
+        route._data.bundles = bundleMap;
+        route._data.assets = assetMap;
+        route._data.nonce = generateNonce();
+      
+        res.render(route.view, route._data);
+      }
     } else {
       next();
     }
   });
 });
-
 /**
  * Error page
  */
